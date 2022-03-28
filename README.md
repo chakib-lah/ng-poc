@@ -17,3 +17,5 @@ git workflow for this project.
 Commit naming must follow this format `(feat|fix|doc)[issue-number]:[commit-description]` 
 
 example: `(feat)[1]: creat docker image for php 8`
+
+This is a test
