@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  php:
+    build:
+      context: ./images/php-fpm
+      dockerfile: Dockerfile
+    container_name: ng-poc-php
+    volumes:
+      - ../Api:/var/www/html/Api
+    links:
+      - ngdb
+  ngnix:
+    build:
+      context: ./images/ngnix
+      dockerfile: Dockerfile
+    container_name: ng-poc-ngnix
+    ports:
+      - '80:80'
+      - '443:443'
+  ngdb:
+    image: mariadb
+    container_name: ng-poc-db
+    ports:
+      - '3306:3306'
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: ng-poc
+    volumes:
+      - db-data-ng-poc:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: ng-poc-phpmyadmin
+    restart: always
+    ports:
+      - '8080:80'
+    links:
+      - ngdb:db
+volumes:
+  db-data-ng-poc:
