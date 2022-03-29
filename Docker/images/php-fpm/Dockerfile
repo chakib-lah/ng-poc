@@ -33,6 +33,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 && composer --version
 
 
-WORKDIR /var/www/html/
+WORKDIR /var/www/ng-poc
 
 EXPOSE 9003

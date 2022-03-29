@@ -6,7 +6,7 @@ services:
       context: ./images/php-fpm
     container_name: ng-poc-php
     volumes:
-      - ../Api:/var/www/html/Api
+      - ../Api:/var/www/ng-poc/Api
     links:
       - ngdb
   ngnix:
@@ -17,7 +17,9 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - ../logs/nginx/:/var/log/nginx
+      - ../Docker/logs/nginx/:/var/log/nginx
+    links:
+      - php
   ngdb:
     image: mariadb
     container_name: ng-poc-db
