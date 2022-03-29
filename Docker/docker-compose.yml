@@ -4,7 +4,6 @@ services:
   php:
     build:
       context: ./images/php-fpm
-      dockerfile: Dockerfile
     container_name: ng-poc-php
     volumes:
       - ../Api:/var/www/html/Api
@@ -13,11 +12,12 @@ services:
   ngnix:
     build:
       context: ./images/ngnix
-      dockerfile: Dockerfile
     container_name: ng-poc-ngnix
     ports:
       - '80:80'
       - '443:443'
+    volumes:
+      - ../logs/nginx/:/var/log/nginx
   ngdb:
     image: mariadb
     container_name: ng-poc-db
@@ -26,6 +26,8 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: root
       MARIADB_DATABASE: ng-poc
+      MARIADB_USER: usrdev
+      MARIADB_PASSWORD: passdev
     volumes:
       - db-data-ng-poc:/var/lib/mysql
   phpmyadmin:
@@ -36,5 +38,10 @@ services:
       - '8080:80'
     links:
       - ngdb:db
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+
 volumes:
   db-data-ng-poc:

@@ -7,17 +7,16 @@ RUN apt-get update && apt-get install -y \
     openssl \
     unzip \
     make \
-    mod_ssl \
     openssl \
     procps \
     sudo \
     unzip \
     vim \
-    yum-utils \
-    zlib \
-    libpng \
-    libpng-devel \
+    libpng-dev \
+    libjpeg-dev \
     zip \
+    zlib1g \
+    libfreetype-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg && \
         docker-php-ext-install gd \
     && docker-php-ext-configure opcache --enable-opcache &&\
@@ -25,7 +24,9 @@ RUN apt-get update && apt-get install -y \
 
 # install xdebug
 RUN pecl install xdebug \
-        && docker-php-ext-enable xdebug
+    && docker-php-ext-enable xdebug \
+    && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.client_host = host.docker.internal" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
