@@ -7,18 +7,20 @@ services:
     container_name: ng-poc-php
     volumes:
       - ../Api:/var/www/ng-poc/Api
-    links:
+    depends_on:
       - ngdb
-  ngnix:
+  nginx:
     build:
-      context: ./images/ngnix
-    container_name: ng-poc-ngnix
+      context: ./images/nginx
+    container_name: ng-poc-nginx
     ports:
       - '80:80'
       - '443:443'
+    volumes_from:
+      - php
     volumes:
-      - ../Docker/logs/nginx/:/var/log/nginx
-    links:
+      - ./logs/nginx/:/var/log/nginx
+    depends_on:
       - php
   ngdb:
     image: mariadb
@@ -35,13 +37,12 @@ services:
   phpmyadmin:
     image: phpmyadmin
     container_name: ng-poc-phpmyadmin
-    restart: always
     ports:
       - '8080:80'
-    links:
-      - ngdb:db
+    depends_on:
+      - ngdb
     environment:
-      - PMA_HOST=db
+      - PMA_HOST=ngdb
       - PMA_USER=root
       - PMA_PASSWORD=root
 
