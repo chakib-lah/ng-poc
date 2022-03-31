@@ -2,7 +2,7 @@ FROM nginx
 
 LABEL maintainer='Chakib LAHNAKI <chakib.lahnaki@gmail.com>'
 
-RUN mkdir /etc/nginx/sites-enabled
+RUN mkdir -p /etc/nginx/sites-enabled
 
 ADD nginx.conf /etc/nginx/
 ADD symfony.conf /etc/nginx/sites-available/
