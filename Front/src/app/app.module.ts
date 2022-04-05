@@ -9,11 +9,13 @@ import { MovieModule } from "./movie/movie.module";
 import { AdminModule } from "./admin/admin.module";
 import { CoreModule } from "./core/core.module";
 import { SharedModule } from "./shared/shared.module";
+import { WelcomeComponent } from './home/welcome.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MovieComponent
+    MovieComponent,
+    WelcomeComponent,
   ],
   imports: [
     BrowserModule,

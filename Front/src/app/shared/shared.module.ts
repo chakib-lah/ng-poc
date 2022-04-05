@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NotFondComponent } from './not-fond/not-fond.component';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    NotFondComponent
+  ],
   imports: [
     CommonModule
   ],
