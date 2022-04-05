@@ -5,6 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MovieComponent } from './movie/movie.component';
+import { MovieModule } from "./movie/movie.module";
+import { AdminModule } from "./admin/admin.module";
+import { CoreModule } from "./core/core.module";
+import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -14,7 +18,11 @@ import { MovieComponent } from './movie/movie.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MovieModule,
+    AdminModule,
+    CoreModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
