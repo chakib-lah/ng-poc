@@ -5,7 +5,7 @@ import { NotFondComponent } from "./shared/not-fond/not-fond.component";
 
 const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent},
-  { path: '', component: WelcomeComponent},
+  { path: '', redirectTo: 'welcome', pathMatch: 'full'},
   { path: '**', component: NotFondComponent }
 ];
 
