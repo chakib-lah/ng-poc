@@ -19,12 +19,12 @@ import { WelcomeComponent } from './home/welcome.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     MovieModule,
     AdminModule,
     CoreModule,
-    SharedModule
+    SharedModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
