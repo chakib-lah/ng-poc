@@ -15,6 +15,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'integer')]
     private $id;
 
+
+    #[ORM\Column(type: 'string', length: 50, unique: true)]
+    private $username;
+
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private $email;
 
@@ -28,6 +32,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->id;
     }
+
+    /**
+     * @return string
+     */
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param string $username
+     * @return User
+     */
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
 
     public function getEmail(): ?string
     {
