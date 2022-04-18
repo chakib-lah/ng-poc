@@ -13,10 +13,6 @@ import { AuthenticationService } from './services/authentication.service';
 import { TokenStorage } from './services/token-storage.service';
 import { LoginComponent } from './login/login.component';
 
-export function factory(authenticationService: AuthenticationService) {
-  return authenticationService;
-}
-
 
 @NgModule({
   declarations: [
@@ -32,11 +28,7 @@ export function factory(authenticationService: AuthenticationService) {
     AuthenticationService,
     { provide: PROTECTED_FALLBACK_PAGE_URI, useValue: '/' },
     { provide: PUBLIC_FALLBACK_PAGE_URI, useValue: '/login' },
-    {
-      provide: AUTH_SERVICE,
-      deps: [ AuthenticationService ],
-      useFactory: factory
-    }
+    { provide: AUTH_SERVICE, useClass: AuthenticationService }
   ]
 })
 export class AuthenticationModule { }
