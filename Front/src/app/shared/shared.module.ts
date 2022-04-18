@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotFondComponent } from './not-fond/not-fond.component';
+import {MaterialModule} from './material.module';
 
 
 
@@ -9,10 +10,12 @@ import { NotFondComponent } from './not-fond/not-fond.component';
     NotFondComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MaterialModule
   ],
   exports: [
-    CommonModule
+    CommonModule,
+    MaterialModule
   ]
 })
 export class SharedModule { }
