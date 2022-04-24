@@ -1,6 +1,38 @@
-<p>
-    Public area!
-</p>
+<mat-card class="login-card">
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-content>
+        <form novalidate [formGroup]="loginForm">
+            <mat-form-field appearance="fill">
+                <input type="email" matInput formControlName="username" placeholder="Username">
+                <mat-error *ngIf="loginForm.get('username')?.errors?.['required']">
+                    Please enter your username.
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <input type="email" matInput formControlName="password" placeholder="Password">
+                <mat-error *ngIf="loginForm.get('password')?.errors?.['required']">
+                    Please enter your password.
+                </mat-error>
+            </mat-form-field>
+            <mat-card-actions class="button">
+                <button mat-button>Login</button>
+            </mat-card-actions>
+        </form>
+    </mat-card-content>
+    <mat-card-footer>
+        <span> Don't have an account ? </span><a routerLink="/register"> Sign up</a>
+    </mat-card-footer>
+</mat-card>
+<br>
+
+
+<br>Dirty: {{ loginForm.dirty }}
+<br>Touched: {{ loginForm.touched }}
+<br>Valid: {{ loginForm.valid }}
+<br>Value: {{ loginForm.value | json }}
+<br>Street: {{ loginForm.get('0.street1')?.value }}
+<br>&nbsp;
+
 
 <button (click)="login()">
     Login

@@ -12,11 +12,13 @@ import {
 import { AuthenticationService } from './services/authentication.service';
 import { TokenStorage } from './services/token-storage.service';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     SharedModule,
