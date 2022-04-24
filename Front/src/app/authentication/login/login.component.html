@@ -9,13 +9,13 @@
                 </mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill">
-                <input type="email" matInput formControlName="password" placeholder="Password">
+                <input type="password" matInput formControlName="password" placeholder="Password">
                 <mat-error *ngIf="loginForm.get('password')?.errors?.['required']">
                     Please enter your password.
                 </mat-error>
             </mat-form-field>
             <mat-card-actions class="button">
-                <button mat-button>Login</button>
+                <button mat-button (click)="login()">Login</button>
             </mat-card-actions>
         </form>
     </mat-card-content>
@@ -32,8 +32,3 @@
 <br>Value: {{ loginForm.value | json }}
 <br>Street: {{ loginForm.get('0.street1')?.value }}
 <br>&nbsp;
-
-
-<button (click)="login()">
-    Login
-</button>
