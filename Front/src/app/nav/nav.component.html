@@ -1,9 +1,0 @@
-<mat-toolbar color="primary" class="navbar">
-    <span>Ng-Poc</span>
-    <div>
-        <a routerLink="/welcome"> <span>Home</span></a>
-        <a *ngIf="!loggedIn" routerLink="/login"> <span>Login</span></a>
-        <a *ngIf="loggedIn" (click)="logout()"> <span>Logout</span></a>
-    </div>
-
-</mat-toolbar>

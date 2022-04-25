@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../authentication/services/authentication.service';
+import { AuthenticationService } from '../../authentication/services/authentication.service';
 
 @Component({
     selector: 'app-nav',
@@ -8,14 +8,12 @@ import { AuthenticationService } from '../authentication/services/authentication
 })
 export class NavComponent implements OnInit {
 
-    loggedIn: boolean = false;
 
-    constructor(private authService: AuthenticationService) {
+    constructor(public authService: AuthenticationService) {
 
     }
 
     ngOnInit(): void {
-        this.loggedIn = this.authService.isLoggedIn();
     }
 
 
