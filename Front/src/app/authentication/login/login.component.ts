@@ -25,13 +25,11 @@ export class LoginComponent implements OnInit {
   }
 
   public login() {
+    let username = this.loginForm.get('username')?.value;
+    let password = this.loginForm.get('password')?.value;
     this.authService
-        .login('chakib', 'ngpoc')
+        .login(username, password)
         .subscribe(() => this.router.navigateByUrl('/'));
   }
 
-  public logout() {
-    this.authService
-        .logout();
-  }
 }

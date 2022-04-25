@@ -14,10 +14,12 @@ import { environment } from '../environments/environment';
 import { BASE_URL } from './tokens';
 import { AuthenticationModule } from './authentication/authentication.module';
 import {HttpClientModule} from "@angular/common/http";
+import { NavComponent } from './nav/nav.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    NavComponent,
     MovieComponent,
     WelcomeComponent,
   ],

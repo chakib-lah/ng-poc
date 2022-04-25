@@ -1,4 +1,4 @@
-import {Inject, Injectable} from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap, map, switchMap, catchError } from 'rxjs/operators';
@@ -122,4 +122,8 @@ export class AuthenticationService implements AuthService {
         .setRefreshToken(refresh_token);
   }
 
+
+  public isLoggedIn(): boolean{
+    return localStorage.getItem('accessToken') !== null;
+  }
 }
