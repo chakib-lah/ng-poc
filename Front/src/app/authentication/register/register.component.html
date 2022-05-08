@@ -7,17 +7,11 @@
                 <mat-error *ngIf="displayMessage['username']">
                     {{displayMessage['username']}}
                 </mat-error>
-                <mat-error *ngIf="registerForm.get('username')?.errors?.['taken']">
-                    Username is taken
-                </mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <input type="email" matInput formControlName="email" placeholder="Email">
                 <mat-error *ngIf="displayMessage['email']">
                     {{displayMessage['email']}}
-                </mat-error>
-                <mat-error *ngIf="registerForm.get('email')?.errors?.['taken']">
-                    email is taken
                 </mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill">
@@ -30,9 +24,6 @@
                 <input type="password" matInput formControlName="confirmPassword" placeholder="Confirm your password">
                 <mat-error *ngIf="displayMessage['confirmPassword']">
                     {{displayMessage['confirmPassword']}}
-                </mat-error>
-                <mat-error *ngIf="registerForm.get('confirmPassword')?.errors?.['NoPasswordMatch']">
-                    The password confirmation does not match with the password
                 </mat-error>
             </mat-form-field>
             <mat-card-actions class="button">

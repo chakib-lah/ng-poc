@@ -1,6 +1,6 @@
 import { AbstractControl } from '@angular/forms';
 
-export class PasswordMatcherValidators {
+export class PasswordMatchValidators {
 
 
     static passwordMatchValidator(control: AbstractControl) {
@@ -9,7 +9,7 @@ export class PasswordMatcherValidators {
         // compare is the password math
         if (password !== confirmPassword) {
             // if they don't match, set an error in our confirmPassword form control
-            control.get('confirmPassword')?.setErrors({ NoPasswordMatch: true });
+            control.get('confirmPassword')?.setErrors({ passwordMatch: true });
         }
     }
 }

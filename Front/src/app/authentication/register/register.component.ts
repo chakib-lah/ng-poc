@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControlName, FormGroup, Validators} from '@angular/forms';
-import { PasswordMatcherValidators } from '../../shared/validators/password-matcher-validators';
+import { PasswordMatchValidators } from '../../shared/validators/password-match-validators';
 import { debounceTime} from 'rxjs/operators';
 import { RegisterService } from '../services/register.service';
 import { GenericValidator } from '../../shared/validators/generic-validators';
@@ -40,12 +40,13 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             username: {
                 required: 'User name is required.',
                 minlength: 'User name must be at least three characters.',
-                maxlength: 'User name cannot exceed 50 characters.'
+                unique: 'Username is taken'
 
             },
             email: {
                 required: 'Email is required.',
-                email: 'Please enter a valid email address.'
+                email: 'Please enter a valid email address.',
+                unique: 'Email is taken'
             },
             password: {
                 required: 'Password is required.',
@@ -53,6 +54,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             },
             confirmPassword: {
                 required: 'Confirm your password is required.',
+                passwordMatch: 'The password confirmation does not match with the password'
             }
         };
 
@@ -67,7 +69,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             email: ['', [Validators.required, Validators.email], UniqueValidators.uniqueMatch(this.registerService, 'email')],
             password: ['', [Validators.required, Validators.minLength(8)]],
             confirmPassword: ['', [Validators.required, Validators.minLength(8)]]
-        }, {validator: PasswordMatcherValidators.passwordMatchValidator});
+        }, {validator: PasswordMatchValidators.passwordMatchValidator});
 
     }
 
@@ -92,10 +94,10 @@ export class RegisterComponent implements OnInit, AfterViewInit {
             if (this.registerForm.dirty) {
                 // TODO show a toaster for user in successful sign up
                 this.registerService.createRessource('/api/users', this.registerForm.value)
-                    .subscribe(
-                        () => this.router.navigateByUrl('/login'),
-                        err => console.log(err)
-                    );
+                    .subscribe({
+                        next: () => this.router.navigateByUrl('/login'),
+                        error: err => console.log(err)
+                    });
             }
         }
     }

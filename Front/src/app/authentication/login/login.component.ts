@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
+import { FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { Router } from "@angular/router";
 import { AuthenticationService } from '../services/authentication.service';
 import { GenericValidator } from '../../shared/validators/generic-validators';
+import { fromEvent, merge } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
+    @ViewChildren(FormControlName, {read: ElementRef}) formInputElements!: ElementRef[];
+
     loginForm!: FormGroup;
     errorMessage = '';
     // Use with the generic validation message class
@@ -42,19 +47,34 @@ export class LoginComponent implements OnInit {
         });
     }
 
+    ngAfterViewInit(): void {
+        // Watch for the blur event from any input element on the form.
+        // This is required because the valueChanges does not provide notification on blur
+        const controlBlurs: Observable<any>[] = this.formInputElements
+            .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
+
+        // Merge the blur event observable with the valueChanges observable
+        // so we only need to subscribe once.
+        merge(this.loginForm.valueChanges, ...controlBlurs).pipe(
+            debounceTime(300)
+        ).subscribe(value => {
+            this.displayMessage = this.genericValidator.processMessages(this.loginForm);
+        });
+    }
+
     public login() {
         let username = this.loginForm.get('username')?.value;
         let password = this.loginForm.get('password')?.value;
         this.authService
             .login(username, password)
-            .subscribe(
-                () => this.router.navigateByUrl('/'),
-                err => {
-                    if (err.status === 401) {
+            .subscribe({
+                next: () => this.router.navigateByUrl('/'),
+                error: (err) => {
+                    if ( err.status === 401) {
                         this.errorMessage = 'The username or password are wrong';
                     }
-                }
-            );
+                },
+            });
     }
 
 }
