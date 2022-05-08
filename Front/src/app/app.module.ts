@@ -13,13 +13,17 @@ import { WelcomeComponent } from './home/welcome.component';
 import { environment } from '../environments/environment';
 import { BASE_URL } from './tokens';
 import { AuthenticationModule } from './authentication/authentication.module';
-import {HttpClientModule} from "@angular/common/http";
+import { HttpClientModule } from '@angular/common/http';
+import { NavComponent } from './shared/nav/nav.component';
+import { NotFondComponent } from './shared/not-fond/not-fond.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MovieComponent,
     WelcomeComponent,
+    NavComponent,
+    NotFondComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,8 @@
+/* Defines the user entity */
+export interface User {
+    id: number;
+    username: string;
+    email: string;
+    password: string;
+    roles?: string[];
+}

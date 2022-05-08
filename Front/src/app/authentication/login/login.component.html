@@ -3,19 +3,19 @@
     <mat-card-content>
         <form novalidate (ngSubmit)="login()" [formGroup]="loginForm">
             <mat-form-field appearance="fill">
-                <input type="text" matInput formControlName="username" placeholder="Username">
-                <mat-error *ngIf="loginForm.get('username')?.errors?.['required']">
-                    Please enter your username.
+                <input type="text" matInput formControlName="username" placeholder="Username" id="username">
+                <mat-error>
+                    {{ displayMessage['username'] }}
                 </mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill">
-                <input type="password" matInput formControlName="password" placeholder="Password">
-                <mat-error *ngIf="loginForm.get('password')?.errors?.['required']">
-                    Please enter your password.
+                <input type="password" matInput formControlName="password" placeholder="Password" id="password">
+                <mat-error>
+                    {{ displayMessage['password'] }}
                 </mat-error>
             </mat-form-field>
             <mat-card-actions class="button">
-                <button mat-button type="submit">Login</button>
+                <button mat-button>Login</button>
             </mat-card-actions>
         </form>
     </mat-card-content>
@@ -24,11 +24,3 @@
     </mat-card-footer>
 </mat-card>
 <br>
-
-
-<br>Dirty: {{ loginForm.dirty }}
-<br>Touched: {{ loginForm.touched }}
-<br>Valid: {{ loginForm.valid }}
-<br>Value: {{ loginForm.value | json }}
-<br>Street: {{ loginForm.get('0.street1')?.value }}
-<br>&nbsp;

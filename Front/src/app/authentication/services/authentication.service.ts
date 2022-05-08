@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpRequest} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap, map, switchMap, catchError } from 'rxjs/operators';
 import { AuthService } from 'ngx-auth';
@@ -125,5 +125,13 @@ export class AuthenticationService implements AuthService {
 
   public isLoggedIn(): boolean{
     return localStorage.getItem('accessToken') !== null;
+  }
+
+  /**
+   *
+   * @param {HttpRequest} req
+   */
+  public skipRequest(req: HttpRequest<any>): boolean {
+    return req.url.endsWith('/login_check');
   }
 }

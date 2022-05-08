@@ -1,57 +1,44 @@
 <mat-card class="register-card">
     <mat-card-title>Sign Up</mat-card-title>
     <mat-card-content>
-        <form novalidate [formGroup]="registerForm" (ngSubmit)="save()">
+        <form novalidate [formGroup]="registerForm" (ngSubmit)="register()">
             <mat-form-field appearance="fill">
                 <input type="text" matInput formControlName="username" placeholder="Username">
-                <mat-error *ngIf="registerForm.get('username')?.errors?.['required']">
-                    Please enter your username.
+                <mat-error *ngIf="displayMessage['username']">
+                    {{displayMessage['username']}}
                 </mat-error>
-                <mat-error *ngIf="registerForm.get('username')?.errors?.['minlength']">
-                    The username must be longer than 3 characters.
+                <mat-error *ngIf="registerForm.get('username')?.errors?.['taken']">
+                    Username is taken
                 </mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill">
                 <input type="email" matInput formControlName="email" placeholder="Email">
-                <mat-error *ngIf="registerForm.get('email')?.errors?.['required']">
-                    Please enter a valid email address
+                <mat-error *ngIf="displayMessage['email']">
+                    {{displayMessage['email']}}
                 </mat-error>
-                <mat-error *ngIf="registerForm.get('email')?.errors?.['required']">
-                    Please enter your email.
+                <mat-error *ngIf="registerForm.get('email')?.errors?.['taken']">
+                    email is taken
                 </mat-error>
             </mat-form-field>
-            <div formGroupName="passwordGroup">
-                <mat-form-field appearance="fill">
-                    <input type="password" matInput formControlName="password" placeholder="Password">
-                    <mat-error *ngIf="registerForm.get('passwordGroup.password')?.errors?.['required']">
-                        Please enter your password
-                    </mat-error>
-                    <mat-error *ngIf="registerForm.get('passwordGroup.password')?.errors?.['minlength']">
-                        The password must be longer than 8 characters.
-                    </mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="fill">
-                    <input type="password" matInput formControlName="confirmPassword" placeholder="Confirm your password">
-                    <mat-error *ngIf="registerForm.get('passwordGroup.confirmPassword')?.errors?.['required']">
-                        Please enter your password
-                    </mat-error>
-                    <mat-error *ngIf="registerForm.get('passwordGroup')?.errors?.['match']">
-                        The password confirmation does not match with the password
-                    </mat-error>
-                </mat-form-field>
-            </div>
+            <mat-form-field appearance="fill">
+                <input type="password" matInput formControlName="password" placeholder="Password">
+                <mat-error *ngIf="displayMessage['password']">
+                    {{displayMessage['password']}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <input type="password" matInput formControlName="confirmPassword" placeholder="Confirm your password">
+                <mat-error *ngIf="displayMessage['confirmPassword']">
+                    {{displayMessage['confirmPassword']}}
+                </mat-error>
+                <mat-error *ngIf="registerForm.get('confirmPassword')?.errors?.['NoPasswordMatch']">
+                    The password confirmation does not match with the password
+                </mat-error>
+            </mat-form-field>
             <mat-card-actions class="button">
-                <button mat-button type="submit">Save</button>
+                <button mat-button>Save</button>
             </mat-card-actions>
         </form>
     </mat-card-content>
 </mat-card>
 <br>
-
-
-<br>Dirty: {{ registerForm.dirty }}
-<br>Touched: {{ registerForm.touched }}
-<br>Valid: {{ registerForm.valid }}
-<br>Value: {{ registerForm.value | json }}
-<br>Street: {{ registerForm.get('0.street1')?.value }}
-<br>&nbsp;

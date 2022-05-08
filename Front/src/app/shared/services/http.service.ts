@@ -89,7 +89,7 @@ export class HttpService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      errorMessage = `Backend returned code ${err.status}: ${err.body.error}`;
+      errorMessage = `Backend returned code ${err.status}: ${err.error.violations}`;
     }
     console.error(err);
     return throwError(() => new Error(errorMessage));
