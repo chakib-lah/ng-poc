@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\UserRepository;
@@ -30,10 +31,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     private string $email;
 
+    #[ORM\Column(type: 'string', length: 50)]
+    private string $firstName;
+
+    #[ORM\Column(type: 'string', length: 50)]
+    private string $lastName;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private string $picture;
+
     #[ORM\Column(type: 'json')]
+    #[ApiProperty(security: "is_granted('ROLE_ADMIN')")]
     private array $roles = [];
 
     #[ORM\Column(type: 'string')]
+    #[ApiProperty(security: "is_granted('ROLE_ADMIN')")]
     private string $password;
 
 
@@ -95,6 +107,62 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUserIdentifier(): string
     {
         return (string) $this->username;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName(): string
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param string $firstName
+     * @return User
+     */
+    public function setFirstName(string $firstName): User
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName(): string
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param string $lastName
+     * @return User
+     */
+    public function setLastName(string $lastName): User
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPicture(): string
+    {
+        return $this->picture;
+    }
+
+    /**
+     * @param string|null $picture
+     * @return User
+     */
+    public function setPicture(?string $picture): User
+    {
+        $this->picture = $picture;
+        return $this;
     }
 
     /**

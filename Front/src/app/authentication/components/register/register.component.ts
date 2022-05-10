@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControlName, FormGroup, Validators} from '@angular/forms';
-import { PasswordMatchValidators } from '../../shared/validators/password-match-validators';
+import { PasswordMatchValidators } from '../../../shared/validators/password-match-validators';
 import { debounceTime} from 'rxjs/operators';
-import { RegisterService } from '../services/register.service';
-import { GenericValidator } from '../../shared/validators/generic-validators';
+import { RegisterService } from '../../services/register.service';
+import { GenericValidator } from '../../../shared/validators/generic-validators';
 import { Observable } from 'rxjs/internal/Observable';
 import { fromEvent, merge } from 'rxjs';
-import { UniqueValidators } from '../../shared/validators/unique-validators';
-import { User } from './user';
+import { UniqueValidators } from '../../../shared/validators/unique-validators';
+import { User } from '../../models/user';
 import { Router } from '@angular/router';
 
 
@@ -65,8 +65,16 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         this.registerForm = this.fb.group({
-            username: ['', [Validators.required, Validators.minLength(3)], UniqueValidators.uniqueMatch(this.registerService, 'username')],
-            email: ['', [Validators.required, Validators.email], UniqueValidators.uniqueMatch(this.registerService, 'email')],
+            username: ['', {
+                validators: [Validators.required, Validators.minLength(3)],
+                asyncValidators: UniqueValidators.uniqueMatch(this.registerService, 'username'),
+                updateOn: 'blur'
+            }],
+            email: ['', {
+                validators: [Validators.required, Validators.email],
+                asyncValidators: UniqueValidators.uniqueMatch(this.registerService, 'email'),
+                updateOn: 'blur'
+            }],
             password: ['', [Validators.required, Validators.minLength(8)]],
             confirmPassword: ['', [Validators.required, Validators.minLength(8)]]
         }, {validator: PasswordMatchValidators.passwordMatchValidator});

@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { Router } from "@angular/router";
-import { AuthenticationService } from '../services/authentication.service';
-import { GenericValidator } from '../../shared/validators/generic-validators';
+import { AuthenticationService } from '../../services/authentication.service';
+import { GenericValidator } from '../../../shared/validators/generic-validators';
 import { fromEvent, merge } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
