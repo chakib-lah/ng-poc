@@ -9,6 +9,18 @@
                 </mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill">
+                <input type="text" matInput formControlName="firstName" placeholder="First name">
+                <mat-error *ngIf="displayMessage['firstName']">
+                    {{displayMessage['firstName']}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <input type="text" matInput formControlName="lastName" placeholder="Last name">
+                <mat-error *ngIf="displayMessage['lastName']">
+                    {{displayMessage['lastName']}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
                 <input type="email" matInput formControlName="email" placeholder="Email">
                 <mat-error *ngIf="displayMessage['email']">
                     {{displayMessage['email']}}

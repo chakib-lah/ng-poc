@@ -41,7 +41,14 @@ export class RegisterComponent implements OnInit, AfterViewInit {
                 required: 'User name is required.',
                 minlength: 'User name must be at least three characters.',
                 unique: 'Username is taken'
-
+            },
+            firstName: {
+                required: 'First name is required.',
+                minlength: 'First name must be at least three characters.',
+            },
+            lastName: {
+                required: 'Last name is required.',
+                minlength: 'Last name must be at least three characters.',
             },
             email: {
                 required: 'Email is required.',
@@ -70,6 +77,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
                 asyncValidators: UniqueValidators.uniqueMatch(this.registerService, 'username'),
                 updateOn: 'blur'
             }],
+            firstName: ['', [Validators.required, Validators.minLength(3)]],
+            lastName: ['', [Validators.required, Validators.minLength(3)]],
             email: ['', {
                 validators: [Validators.required, Validators.email],
                 asyncValidators: UniqueValidators.uniqueMatch(this.registerService, 'email'),
@@ -100,6 +109,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     public register(): void {
         if (this.registerForm.valid) {
             if (this.registerForm.dirty) {
+                console.log(this.registerForm.value)
                 // TODO show a toaster for user in successful sign up
                 this.registerService.createRessource('/api/users', this.registerForm.value)
                     .subscribe({

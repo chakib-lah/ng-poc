@@ -41,11 +41,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $picture;
 
     #[ORM\Column(type: 'json')]
-    #[ApiProperty(security: "is_granted('ROLE_ADMIN')")]
     private array $roles = [];
 
     #[ORM\Column(type: 'string')]
-    #[ApiProperty(security: "is_granted('ROLE_ADMIN')")]
     private string $password;
 
 
