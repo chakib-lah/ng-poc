@@ -27,7 +27,7 @@
                 </mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill">
-                <input type="password" matInput formControlName="password" placeholder="Password">
+                <input type="password" matInput ngxPwdStrength formControlName="password" placeholder="Password">
                 <mat-error *ngIf="displayMessage['password']">
                     {{displayMessage['password']}}
                 </mat-error>
