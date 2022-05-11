@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Injectable()
 export class TokenStorage {
+
+  helper = new JwtHelperService();
 
   /**
    * Get access token
@@ -49,5 +52,30 @@ export class TokenStorage {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('userData');
+  }
+
+  /**
+   * save user data in the local storage
+   * @param token
+   */
+  public setUserData(token: any) {
+
+    const decodedToken = this.helper.decodeToken(token);
+
+    let userData = {
+      username: decodedToken.username,
+      firstName: decodedToken.firstName,
+      lastName: decodedToken.lastName,
+      roles: decodedToken.roles
+    }
+    localStorage.setItem('userData', JSON.stringify(userData));
+  }
+
+  /**
+   * get user data from local storage
+   */
+  public getUserData() {
+    let userData = localStorage.getItem('userData') ?? '';
+    return JSON.parse(userData);
   }
 }

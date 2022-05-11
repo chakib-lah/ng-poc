@@ -123,8 +123,7 @@ export class AuthenticationService implements AuthService {
         this.tokenStorage
             .setAccessToken(token)
             .setRefreshToken(refresh_token);
-        const decodedToken = this.helper.decodeToken(token);
-        this.setUserData(decodedToken);
+        this.tokenStorage.setUserData(token);
     }
 
 
@@ -140,26 +139,4 @@ export class AuthenticationService implements AuthService {
         return req.url.endsWith('/login_check');
     }
 
-    /**
-     * save user data in the local storage
-     * @param tokenData
-     */
-    public setUserData(tokenData: any) {
-
-        let userData = {
-            username: tokenData.username,
-            firstName: tokenData.firstName,
-            lastName: tokenData.lastName,
-            roles: tokenData.roles
-        }
-        localStorage.setItem('userData', JSON.stringify(userData));
-    }
-
-    /**
-     * get user data from local storage
-     */
-    public getUserData() {
-        let userData = localStorage.getItem('userData') ?? '';
-        return JSON.parse(userData);
-    }
 }
