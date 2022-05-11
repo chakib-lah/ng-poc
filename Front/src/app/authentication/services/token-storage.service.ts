@@ -48,5 +48,6 @@ export class TokenStorage {
   public clear() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userData');
   }
 }
