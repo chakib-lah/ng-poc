@@ -1,0 +1,13 @@
+<mat-toolbar color="primary" class="navbar">
+    <span>Ng-Poc</span>
+    <div>
+        <a routerLink="/welcome"> <span>Home</span></a>
+        <a *ngIf="authService.isLoggedIn(); else loggedOut" (click)="logout()">
+            <span>Logout</span>
+        </a>
+        <ng-template #loggedOut>
+            <a routerLink="/login"> <span>Login</span></a>
+        </ng-template>
+    </div>
+
+</mat-toolbar>

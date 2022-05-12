@@ -1,0 +1,47 @@
+<mat-card class="register-card">
+    <mat-card-title>Sign Up</mat-card-title>
+    <mat-card-content>
+        <form novalidate [formGroup]="registerForm" (ngSubmit)="register()">
+            <mat-form-field appearance="fill">
+                <input type="text" matInput formControlName="username" placeholder="Username">
+                <mat-error *ngIf="displayMessage['username']">
+                    {{displayMessage['username']}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <input type="text" matInput formControlName="firstName" placeholder="First name">
+                <mat-error *ngIf="displayMessage['firstName']">
+                    {{displayMessage['firstName']}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <input type="text" matInput formControlName="lastName" placeholder="Last name">
+                <mat-error *ngIf="displayMessage['lastName']">
+                    {{displayMessage['lastName']}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <input type="email" matInput formControlName="email" placeholder="Email">
+                <mat-error *ngIf="displayMessage['email']">
+                    {{displayMessage['email']}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <input type="password" matInput ngxPwdStrength formControlName="password" placeholder="Password">
+                <mat-error *ngIf="displayMessage['password']">
+                    {{displayMessage['password']}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <input type="password" matInput formControlName="confirmPassword" placeholder="Confirm your password">
+                <mat-error *ngIf="displayMessage['confirmPassword']">
+                    {{displayMessage['confirmPassword']}}
+                </mat-error>
+            </mat-form-field>
+            <mat-card-actions class="button">
+                <button mat-button>Save</button>
+            </mat-card-actions>
+        </form>
+    </mat-card-content>
+</mat-card>
+<br>
