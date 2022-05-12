@@ -1,0 +1,29 @@
+<mat-card class="login-card">
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-content>
+        <form novalidate (ngSubmit)="login()" [formGroup]="loginForm">
+            <mat-error *ngIf="errorMessage">
+                {{ errorMessage }}
+            </mat-error>
+            <mat-form-field appearance="fill">
+                <input type="text" matInput formControlName="username" placeholder="Username" id="username">
+                <mat-error *ngIf="displayMessage['username']">
+                    {{ displayMessage['username'] }}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <input type="password" matInput formControlName="password" placeholder="Password" id="password">
+                <mat-error *ngIf="displayMessage['password']">
+                    {{ displayMessage['password'] }}
+                </mat-error>
+            </mat-form-field>
+            <mat-card-actions class="button">
+                <button mat-button>Login</button>
+            </mat-card-actions>
+        </form>
+    </mat-card-content>
+    <mat-card-footer>
+        <span> Don't have an account ? </span><a routerLink="/register"> Sign up</a>
+    </mat-card-footer>
+</mat-card>
+<br>
