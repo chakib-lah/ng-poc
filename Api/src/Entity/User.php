@@ -10,9 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    denormalizationContext: ['groups' => ['write']],
+    normalizationContext: ['groups' => ['read']]
+)]
 #[ApiFilter(SearchFilter::class, properties: ['id' => 'exact', 'username' => 'exact', 'email' => 'exact'])]
 #[UniqueEntity('username')]
 #[UniqueEntity('email')]
@@ -25,25 +30,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     #[ORM\Column(type: 'string', length: 50, unique: true)]
+    #[Groups(['read','write'])]
     private string $username;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Groups(['read','write'])]
     private string $email;
 
     #[ORM\Column(type: 'string', length: 50)]
+    #[Groups(['read','write'])]
     private string $firstName;
 
     #[ORM\Column(type: 'string', length: 50)]
+    #[Groups(['read','write'])]
     private string $lastName;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['read','write'])]
     private string $picture;
 
     #[ORM\Column(type: 'json')]
+    #[Groups(['read','write'])]
     private array $roles = [];
 
     #[ORM\Column(type: 'string')]
+    #[Groups(['write'])]
     private string $password;
+
+    #[SerializedName('password')]
+    #[Groups(['write'])]
+    private ?string $plainPassword;
 
 
     public function __construct()
@@ -203,5 +219,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
     }
 }
