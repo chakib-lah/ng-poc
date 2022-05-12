@@ -13,7 +13,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { TokenStorage } from './services/token-storage.service';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { NgxPwdStrengthModule, NgxPwdStrengthService } from "ngx-pwd-strength";
+import { NgxPwdStrengthModule } from "ngx-pwd-strength";
 
 
 @NgModule({
