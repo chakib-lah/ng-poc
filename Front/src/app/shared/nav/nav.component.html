@@ -1,13 +1,31 @@
-<mat-toolbar color="primary" class="navbar">
-    <span>Ng-Poc</span>
-    <div>
-        <a routerLink="/welcome"> <span>Home</span></a>
-        <a *ngIf="authService.isLoggedIn(); else loggedOut" (click)="logout()">
-            <span>Logout</span>
-        </a>
-        <ng-template #loggedOut>
-            <a routerLink="/login"> <span>Login</span></a>
-        </ng-template>
-    </div>
+<mat-toolbar>
+ <button mat-icon-button class="nav-icon" aria-label="icon-button with menu icon">
+  <mat-icon>menu</mat-icon>
+ </button>
+ <a routerLink="/welcome"><span>Ng-Poc</span></a>
+ <a routerLink="#"><span>TOP 100</span></a>
+ <a [matMenuTriggerFor]="menu">
+  <span>Settings</span>
+ </a>
+ <mat-menu #menu="matMenu">
+  <a routerLink="#" mat-menu-item><span>Content</span></a>
+  <a routerLink="#" mat-menu-item><span>Users</span></a>
+  <a routerLink="#" mat-menu-item><span>Permissions</span></a>
+ </mat-menu>
 
+ <span class="spacer"></span>
+ <a [matMenuTriggerFor]="menuProfile">
+  <mat-icon>account_circle</mat-icon>
+ </a>
+ <mat-menu #menuProfile="matMenu">
+  <a mat-menu-item *ngIf="!authService.isLoggedIn(); else loggedOut" routerLink="/login">
+   <span>Login</span>
+  </a>
+  <ng-template #loggedOut>
+   <a routerLink="#" mat-menu-item><span>Profile</span></a>
+   <a (click)="logout()" mat-menu-item><span>Logout</span></a>
+  </ng-template>
+ </mat-menu>
 </mat-toolbar>
+
+
