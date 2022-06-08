@@ -1,31 +1,45 @@
 <mat-toolbar>
- <button mat-icon-button class="nav-icon" aria-label="icon-button with menu icon">
-  <mat-icon>menu</mat-icon>
- </button>
- <a routerLink="/welcome"><span>Ng-Poc</span></a>
- <a routerLink="#"><span>TOP 100</span></a>
- <a [matMenuTriggerFor]="menu">
-  <span>Settings</span>
- </a>
- <mat-menu #menu="matMenu">
-  <a routerLink="#" mat-menu-item><span>Content</span></a>
-  <a routerLink="#" mat-menu-item><span>Users</span></a>
-  <a routerLink="#" mat-menu-item><span>Permissions</span></a>
- </mat-menu>
+    <button mat-icon-button class="nav-icon" aria-label="icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <button mat-button routerLink="/welcome">
+        <span>Ng-Poc</span>
+    </button>
+    <button mat-button routerLink="#">
+        <span>TOP 100</span>
+    </button>
+    <button mat-button [matMenuTriggerFor]="menu">
+        <span>Settings</span>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button routerLink="#" mat-menu-item>
+            <span>Content</span>
+        </button>
+        <button routerLink="#" mat-menu-item>
+            <span>Users</span>
+        </button>
+        <button routerLink="#" mat-menu-item>
+            <span>Permissions</span>
+        </button>
+    </mat-menu>
 
- <span class="spacer"></span>
- <a [matMenuTriggerFor]="menuProfile">
-  <mat-icon>account_circle</mat-icon>
- </a>
- <mat-menu #menuProfile="matMenu">
-  <a mat-menu-item *ngIf="!authService.isLoggedIn(); else loggedOut" routerLink="/login">
-   <span>Login</span>
-  </a>
-  <ng-template #loggedOut>
-   <a routerLink="#" mat-menu-item><span>Profile</span></a>
-   <a (click)="logout()" mat-menu-item><span>Logout</span></a>
-  </ng-template>
- </mat-menu>
+    <span class="spacer"></span>
+    <button [matMenuTriggerFor]="menuProfile">
+        <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #menuProfile="matMenu">
+        <button mat-menu-item *ngIf="!authService.isLoggedIn(); else loggedOut" routerLink="/login">
+            <span>Login</span>
+        </button>
+        <ng-template #loggedOut>
+            <button routerLink="#" mat-menu-item>
+                <span>Profile</span>
+            </button>
+            <button (click)="logout()" mat-menu-item>
+                <span>Logout</span>
+            </button>
+        </ng-template>
+    </mat-menu>
 </mat-toolbar>
 
 

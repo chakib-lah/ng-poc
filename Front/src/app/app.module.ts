@@ -16,6 +16,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NavComponent } from './shared/nav/nav.component';
 import { NotFondComponent } from './shared/not-fond/not-fond.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { NotFondComponent } from './shared/not-fond/not-fond.component';
     MovieComponent,
     WelcomeComponent,
     NavComponent,
-    NotFondComponent
+    NotFondComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
