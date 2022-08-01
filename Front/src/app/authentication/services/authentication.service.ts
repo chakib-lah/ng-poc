@@ -131,7 +131,7 @@ export class AuthenticationService implements AuthService {
    *
    * @public
    */
-  public getAccessData() {
+  public getUserData() {
     return this.tokenStorage.getUserData();
   }
 
@@ -146,6 +146,17 @@ export class AuthenticationService implements AuthService {
    */
   public skipRequest(req: HttpRequest<any>): boolean {
     return req.url.endsWith('/login_check');
+  }
+
+  /**
+   *
+   * @param {string} role
+   * @returns {boolean}
+   *
+   */
+  public hasRole(role: string) : boolean {
+    let user = this.getUserData();
+    return  user.roles.includes(role);
   }
 
 }

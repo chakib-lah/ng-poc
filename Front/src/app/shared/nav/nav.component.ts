@@ -7,8 +7,6 @@ import { AuthenticationService } from '../../authentication/services/authenticat
     styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
-  private user: any;
-  public roles: boolean | undefined
 
 
     constructor(public authService: AuthenticationService) {
@@ -16,8 +14,6 @@ export class NavComponent implements OnInit {
     }
 
     ngOnInit(): void {
-      this.user = this.authService.getAccessData()
-      this.roles = this.user.roles.includes('ROLE_ADMIN');
     }
 
 

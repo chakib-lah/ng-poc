@@ -8,7 +8,7 @@
     <button mat-button routerLink="#">
         <span>TOP 100</span>
     </button>
-    <button mat-button [matMenuTriggerFor]="menu" *ngIf="roles">
+    <button mat-button [matMenuTriggerFor]="menu" *ngIf="authService.isLoggedIn() && authService.hasRole('ROLE_ADMIN')">
         <span>Settings</span>
     </button>
     <mat-menu #menu="matMenu">
