@@ -8,10 +8,24 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 #[ORM\Entity(repositoryClass: ActorsRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get',
+        'post' => [
+            'input_formats' => [
+                'multipart' => ['multipart/form-data'],
+            ],
+        ],
+    ],
+    denormalizationContext: ['groups' => ['actors:write']],
+    normalizationContext: ['groups' => ['actors:read']],
+)]
 class Actors
 {
     #[ORM\Id]
@@ -20,18 +34,28 @@ class Actors
     private $id;
 
     #[ORM\Column(type: 'string', length: 60)]
+    #[Groups(['actors:write', 'actors:read'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 60)]
+    #[Groups(['actors:write', 'actors:read'])]
     private $lastName;
 
     #[ORM\Column(type: 'date')]
+    #[Groups(['actors:write', 'actors:read'])]
     private $birthDate;
+
+    /**
+     * @Vich\UploadableField(mapping="media_object", fileNameProperty="filePath")
+     */
+    #[Groups(['actors:write'])]
+    public ?File $file = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $photo;
 
     #[ORM\ManyToMany(targetEntity: Movie::class, mappedBy: "actors")]
+    #[Groups(['actors:write', 'actors:read'])]
     private $movies;
 
     public function __construct()

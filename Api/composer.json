@@ -12,6 +12,7 @@
         "doctrine/doctrine-bundle": "^2.6",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.11",
+        "gedmo/doctrine-extensions": "^3.8",
         "gesdinet/jwt-refresh-token-bundle": "^1.1",
         "lexik/jwt-authentication-bundle": "^2.15",
         "nelmio/cors-bundle": "^2.2",
@@ -31,7 +32,8 @@
         "symfony/serializer": "6.0.*",
         "symfony/twig-bundle": "6.0.*",
         "symfony/validator": "6.0.*",
-        "symfony/yaml": "6.0.*"
+        "symfony/yaml": "6.0.*",
+        "vich/uploader-bundle": "^1.20"
     },
     "config": {
         "allow-plugins": {

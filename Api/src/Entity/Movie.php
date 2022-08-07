@@ -12,9 +12,23 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    collectionOperations: [
+        'get',
+        'post' => [
+            'input_formats' => [
+                'multipart' => ['multipart/form-data'],
+            ],
+        ],
+    ],
+    denormalizationContext: ['groups' => ['movie:write']],
+    normalizationContext: ['groups' => ['movie:read']],
+)]
 #[ApiFilter(OrderFilter::class, properties: ['dateRelease' => 'DESC'])]
 #[ApiFilter(DateFilter::class, properties: ['dateRelease'])]
 #[ApiFilter(RangeFilter::class, properties: ['score'])]
@@ -26,36 +40,52 @@ class Movie
     private $id;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[Groups(['movie:write', 'movie:read'])]
     private $title;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['movie:write', 'movie:read'])]
     private $description;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['movie:write', 'movie:read'])]
     private $cover;
+
+    /**
+     * @Vich\UploadableField(mapping="media_object", fileNameProperty="filePath")
+     */
+    #[Groups(['movie:write'])]
+    public ?File $file = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $photos;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['movie:write', 'movie:read'])]
     private $score;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[Groups(['movie:write', 'movie:read'])]
     private $country;
 
     #[ORM\Column(type: 'date', nullable: true)]
+    #[Groups(['movie:write', 'movie:read'])]
     private $dateRelease;
 
     #[ORM\ManyToMany(targetEntity: Actors::class, mappedBy: "movies")]
+    #[Groups(['movie:write', 'movie:read'])]
     private $actors;
 
     #[ORM\ManyToMany(targetEntity: Categories::class, mappedBy: "categories")]
+    #[Groups(['movie:write', 'movie:read'])]
     private $categories;
 
     #[ORM\ManyToOne(targetEntity: Authors::class, inversedBy: "movies")]
+    #[Groups(['movie:write', 'movie:read'])]
     private $authors;
 
     #[ORM\OneToMany(mappedBy: "movies", targetEntity: Comment::class, orphanRemoval: true)]
+    #[Groups(['movie:write', 'movie:read'])]
     private $comments;
 
     public function __construct()
@@ -147,18 +177,18 @@ class Movie
     }
 
     /**
-     * @return string|null
+     * @return int|null
      */
-    public function getScore(): ?string
+    public function getScore(): ?int
     {
         return $this->score;
     }
 
     /**
-     * @param string|null $score
+     * @param int|null $score
      * @return Movie
      */
-    public function setScore(?string $score): self
+    public function setScore(?int $score): self
     {
         $this->score = $score;
 

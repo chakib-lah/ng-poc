@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\CommentRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 
-#[ORM\Entity(repositoryClass: CommentRepository::class)]
+#[ORM\Table(name: 'comment')]
+#[ORM\Entity(repositoryClass: NestedTreeRepository::class)]
 #[ApiResource]
 class Comment
 {
@@ -18,11 +21,39 @@ class Comment
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $replayComments;
 
-    #[ORM\Column(type: 'string', length: 60, nullable: true)]
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'autor', referencedColumnName: 'id')]
+    #[Gedmo\Blameable(on: 'change')]
     private $autor;
 
     #[ORM\ManyToOne(targetEntity: Movie::class, inversedBy: "comments")]
     private $movies;
+
+    #[Gedmo\TreeLeft]
+    #[ORM\Column(name: 'lft', type: Types::INTEGER)]
+    private $lft;
+
+    #[Gedmo\TreeLevel]
+    #[ORM\Column(name: 'lvl', type: Types::INTEGER)]
+    private $lvl;
+
+    #[Gedmo\TreeRight]
+    #[ORM\Column(name: 'rgt', type: Types::INTEGER)]
+    private $rgt;
+
+    #[Gedmo\TreeRoot]
+    #[ORM\ManyToOne(targetEntity: Comment::class)]
+    #[ORM\JoinColumn(name: 'tree_root', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    private $root;
+
+    #[Gedmo\TreeParent]
+    #[ORM\ManyToOne(targetEntity: Comment::class, inversedBy: 'children')]
+    #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    private $parent;
+
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: Comment::class)]
+    #[ORM\OrderBy(['lft' => 'ASC'])]
+    private $children;
 
     public function getId(): ?int
     {
@@ -70,6 +101,21 @@ class Comment
         $this->movies = $movies;
 
         return $this;
+    }
+
+    public function getRoot(): ?self
+    {
+        return $this->root;
+    }
+
+    public function setParent(self $parent = null): void
+    {
+        $this->parent = $parent;
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
     }
 
 
