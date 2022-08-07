@@ -24,7 +24,7 @@ class Authors
     #[ORM\Column(type: 'string', length: 60)]
     private $lastName;
 
-    #[ORM\Column(type: 'date', length: 60)]
+    #[ORM\Column(type: 'date')]
     private $birthDate;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
@@ -33,7 +33,7 @@ class Authors
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $photo;
 
-    #[ORM\OneToMany(targetEntity: Movie::class, mappedBy: "authors", orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: "authors", targetEntity: Movie::class, orphanRemoval: true)]
     private $movies;
 
     public function __construct()

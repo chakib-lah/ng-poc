@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use App\Repository\MovieRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -54,7 +55,7 @@ class Movie
     #[ORM\ManyToOne(targetEntity: Authors::class, inversedBy: "movies")]
     private $authors;
 
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: "movies", orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: "movies", targetEntity: Comment::class, orphanRemoval: true)]
     private $comments;
 
     public function __construct()

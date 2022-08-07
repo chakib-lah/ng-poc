@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ActorsRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+
 
 #[ORM\Entity(repositoryClass: ActorsRepository::class)]
 #[ApiResource]
@@ -22,6 +24,12 @@ class Actors
 
     #[ORM\Column(type: 'string', length: 60)]
     private $lastName;
+
+    #[ORM\Column(type: 'date')]
+    private $birthDate;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $photo;
 
     #[ORM\ManyToMany(targetEntity: Movie::class, mappedBy: "actors")]
     private $movies;
@@ -59,6 +67,43 @@ class Actors
 
         return $this;
     }
+
+    /**
+     * @return DateTime
+     */
+    public function getBirthDate(): DateTime
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * @param DateTime $birthDate
+     * @return Actors
+     */
+    public function setBirthDate(DateTime $birthDate): self
+    {
+        $this->birthDate = $birthDate;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param string|null $photo
+     * @return Actors
+     */
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+        return $this;
+    }
+
 
     /**
      * @return Collection|Movie[]
