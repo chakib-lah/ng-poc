@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use App\Repository\MovieRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,6 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 #[ApiResource]
+#[ApiFilter(OrderFilter::class, properties: ['dateRelease' => 'DESC'])]
+#[ApiFilter(DateFilter::class, properties: ['dateRelease'])]
+#[ApiFilter(RangeFilter::class, properties: ['score'])]
 class Movie
 {
     #[ORM\Id]
@@ -20,6 +26,18 @@ class Movie
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $title;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $description;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $cover;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $photos;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $score;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $country;
@@ -36,10 +54,14 @@ class Movie
     #[ORM\ManyToOne(targetEntity: Authors::class, inversedBy: "movies")]
     private $authors;
 
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: "movies", orphanRemoval: true)]
+    private $comments;
+
     public function __construct()
     {
         $this->actors = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -65,6 +87,83 @@ class Movie
 
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string|null $description
+     * @return Movie
+     */
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCover(): ?string
+    {
+        return $this->cover;
+    }
+
+    /**
+     * @param string|null $cover
+     * @return Movie
+     */
+    public function setCover(?string $cover): self
+    {
+        $this->cover = $cover;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhotos(): ?string
+    {
+        return $this->photos;
+    }
+
+    /**
+     * @param string|null $photos
+     * @return Movie
+     */
+    public function setPhotos(?string $photos): self
+    {
+        $this->photos = $photos;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getScore(): ?string
+    {
+        return $this->score;
+    }
+
+    /**
+     * @param string|null $score
+     * @return Movie
+     */
+    public function setScore(?string $score): self
+    {
+        $this->score = $score;
+
+        return $this;
+    }
+
 
     /**
      * @return string|null
@@ -165,6 +264,40 @@ class Movie
     public function setAuthors(?Authors $authors): self
     {
         $this->authors = $authors;
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param Comment $comments
+     * @return $this
+     */
+    public function addComment(Comment $comments): self
+    {
+        if (!$this->comments->contains($comments)) {
+            $this->comments[] = $comments;
+            $comments->setMovies($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comments): self
+    {
+        if ($this->comments->contains($comments)) {
+            $this->comments->removeElement($comments);
+            if ($comments->getMovies() === $this) {
+                $comments->setMovies(null);
+            }
+        }
+
         return $this;
     }
 

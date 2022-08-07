@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AuthorsRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,6 +23,15 @@ class Authors
 
     #[ORM\Column(type: 'string', length: 60)]
     private $lastName;
+
+    #[ORM\Column(type: 'date', length: 60)]
+    private $birthDate;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $filmography;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $photo;
 
     #[ORM\OneToMany(targetEntity: Movie::class, mappedBy: "authors", orphanRemoval: true)]
     private $movies;
@@ -59,6 +69,64 @@ class Authors
 
         return $this;
     }
+
+    /**
+     * @return DateTime|null
+     */
+    public function getBirthDate(): ?DateTime
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * @param DateTime $birthDate
+     * @return Authors
+     */
+    public function setBirthDate(DateTime $birthDate): self
+    {
+        $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFilmography(): ?string
+    {
+        return $this->filmography;
+    }
+
+    /**
+     * @param string $filmography
+     * @return Authors
+     */
+    public function setFilmography(string $filmography): self
+    {
+        $this->filmography = $filmography;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param string $photo
+     * @return Authors
+     */
+    public function setPhoto(string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
 
     /**
      * @return Collection|Movie[]
