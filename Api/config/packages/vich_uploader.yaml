@@ -2,6 +2,15 @@ vich_uploader:
     db_driver: orm
 
     mappings:
-        media_object:
-            uri_prefix: /media
-            upload_destination: '%kernel.project_dir%/public/media'
+        actors:
+            uri_prefix: /images/actors
+            upload_destination: '%kernel.project_dir%/public/images/actors'
+            namer: Vich\UploaderBundle\Naming\OrignameNamer
+        authors:
+            uri_prefix: /images/authors
+            upload_destination: '%kernel.project_dir%/public/images/authors'
+            namer: Vich\UploaderBundle\Naming\OrignameNamer
+        movies:
+            uri_prefix: /images/movies
+            upload_destination: '%kernel.project_dir%/public/images/movies'
+            namer: Vich\UploaderBundle\Naming\OrignameNamer

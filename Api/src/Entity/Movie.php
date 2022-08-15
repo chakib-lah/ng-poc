@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
 #[ApiResource(
     collectionOperations: [
@@ -47,18 +49,17 @@ class Movie
     #[Groups(['movie:write', 'movie:read'])]
     private $description;
 
+    #[Vich\UploadableField(mapping: 'movies', fileNameProperty: 'cover')]
+    #[Groups(['movie:write'])]
+    public ?File $coverFile = null;
+
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['movie:write', 'movie:read'])]
+    #[Groups(['movie:read'])]
     private $cover;
 
-    /**
-     * @Vich\UploadableField(mapping="media_object", fileNameProperty="filePath")
-     */
-    #[Groups(['movie:write'])]
-    public ?File $file = null;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $photos;
+    #[ORM\OneToMany(mappedBy: 'movies', targetEntity: MoviePhoto::class)]
+    #[Groups(['movie:read'])]
+    private $moviesPhotos;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     #[Groups(['movie:write', 'movie:read'])]
@@ -76,7 +77,7 @@ class Movie
     #[Groups(['movie:write', 'movie:read'])]
     private $actors;
 
-    #[ORM\ManyToMany(targetEntity: Categories::class, mappedBy: "categories")]
+    #[ORM\ManyToMany(targetEntity: Categories::class, mappedBy: "movies")]
     #[Groups(['movie:write', 'movie:read'])]
     private $categories;
 
@@ -93,6 +94,7 @@ class Movie
         $this->actors = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->moviesPhotos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -158,20 +160,40 @@ class Movie
     }
 
     /**
-     * @return string|null
+     * @return Collection|MoviePhoto[]
      */
-    public function getPhotos(): ?string
+    public function getMoviesPhotos(): Collection
     {
-        return $this->photos;
+        return $this->moviesPhotos;
     }
 
     /**
-     * @param string|null $photos
-     * @return Movie
+     * @param MoviePhoto $moviePhoto
+     * @return $this
      */
-    public function setPhotos(?string $photos): self
+    public function addProductImage(MoviePhoto $moviePhoto): self
     {
-        $this->photos = $photos;
+        if (!$this->moviesPhotos->contains($moviePhoto)) {
+            $this->moviesPhotos[] = $moviePhoto;
+            $moviePhoto->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param MoviePhoto $moviePhoto
+     * @return $this
+     */
+    public function removeProductImage(MoviePhoto $moviePhoto): self
+    {
+        if ($this->moviesPhotos->contains($moviePhoto)) {
+            $this->moviesPhotos->removeElement($moviePhoto);
+            // set the owning side to null (unless already changed)
+            if ($moviePhoto->getProduct() === $this) {
+                $moviePhoto->setProduct(null);
+            }
+        }
 
         return $this;
     }

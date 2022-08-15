@@ -20,7 +20,8 @@ class Categories
     #[ORM\Column(type: 'string', length: 50)]
     private $type;
 
-    #[ORM\ManyToMany(targetEntity: Movie::class, mappedBy: "categories")]
+    #[ORM\ManyToMany(targetEntity: Movie::class, inversedBy: "categories")]
+    #[ORM\JoinTable(name: "movies_categories")]
     private $movies;
 
     public function __construct()

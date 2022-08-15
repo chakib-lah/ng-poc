@@ -18,9 +18,6 @@ class Comment
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $replayComments;
-
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'autor', referencedColumnName: 'id')]
     #[Gedmo\Blameable(on: 'change')]
@@ -58,18 +55,6 @@ class Comment
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getReplayComments(): ?string
-    {
-        return $this->replayComments;
-    }
-
-    public function setReplayComments(?string $replayComments): self
-    {
-        $this->replayComments = $replayComments;
-
-        return $this;
     }
 
     public function getAutor(): ?string
