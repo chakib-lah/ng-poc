@@ -13,7 +13,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
-#[Vich\Uploadable]
+/**
+ * @Vich\Uploadable()
+ */
 #[ORM\Entity(repositoryClass: ActorsRepository::class)]
 #[ApiResource(
     collectionOperations: [
@@ -46,7 +48,9 @@ class Actors
     #[Groups(['actors:write', 'actors:read'])]
     private $birthDate;
 
-    #[Vich\UploadableField(mapping: 'actors', fileNameProperty: 'photo')]
+    /**
+     * @Vich\UploadableField(mapping="actors", fileNameProperty="photo")
+     */
     #[Groups(['actors:write'])]
     public ?File $photoFile = null;
 

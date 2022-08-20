@@ -13,7 +13,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
-#[Vich\Uploadable]
+/**
+ * @Vich\Uploadable()
+ */
 #[ORM\Entity(repositoryClass: AuthorsRepository::class)]
 #[ApiResource(
     collectionOperations: [
@@ -46,11 +48,13 @@ class Authors
     #[Groups(['authors:write', 'authors:read'])]
     private $birthDate;
 
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Groups(['authors:write', 'authors:read'])]
     private $filmography;
 
-    #[Vich\UploadableField(mapping: 'authors', fileNameProperty: 'photo')]
+    /**
+     * @Vich\UploadableField(mapping="authors", fileNameProperty="photo")
+     */
     #[Groups(['authors:write'])]
     public ?File $photoFile = null;
 
@@ -59,7 +63,7 @@ class Authors
     private $photo;
 
     #[ORM\OneToMany(mappedBy: "authors", targetEntity: Movie::class, orphanRemoval: true)]
-    #[Groups(['authors:write', 'authors:read'])]
+    #[Groups(['authors:read'])]
     private $movies;
 
     public function __construct()

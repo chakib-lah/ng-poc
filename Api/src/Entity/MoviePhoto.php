@@ -10,7 +10,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
-#[Vich\Uploadable]
+/**
+ * @Vich\Uploadable()
+ */
 #[ORM\Entity(repositoryClass: MoviePhotoRepository::class)]
 #[ApiResource(
     collectionOperations: [
@@ -39,7 +41,9 @@ class MoviePhoto
     #[Groups(['moviePhoto:read'])]
     private $photoPath;
 
-    #[Vich\UploadableField(mapping: 'movies', fileNameProperty: 'photoPath')]
+    /**
+     * @Vich\UploadableField(mapping="movies", fileNameProperty="photoPath")
+     */
     #[Groups(['moviePhoto:write', 'moviePhoto:read'])]
     public ?File $photsFile = null;
 
