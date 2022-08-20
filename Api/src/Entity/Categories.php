@@ -7,9 +7,13 @@ use App\Repository\CategoriesRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CategoriesRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    denormalizationContext: ['groups' => ['categories:write']],
+    normalizationContext: ['groups' => ['categories:read']],
+)]
 class Categories
 {
     #[ORM\Id]
@@ -18,10 +22,12 @@ class Categories
     private $id;
 
     #[ORM\Column(type: 'string', length: 50)]
+    #[Groups(['categories:write', 'categories:read'])]
     private $type;
 
     #[ORM\ManyToMany(targetEntity: Movie::class, inversedBy: "categories")]
     #[ORM\JoinTable(name: "movies_categories")]
+    #[Groups(['categories:read'])]
     private $movies;
 
     public function __construct()
