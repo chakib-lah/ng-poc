@@ -17,10 +17,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
-/**
- * @Vich\Uploadable()
- */
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
+#[Vich\Uploadable]
 #[ApiResource(
     collectionOperations: [
         'get',
@@ -51,9 +49,10 @@ class Movie
     #[Groups(['movie:write', 'movie:read'])]
     private $description;
 
-    /**
-     * @Vich\UploadableField(mapping="movies", fileNameProperty="cover")
-     */
+    #[Groups(['movie:read'])]
+    public ?string $contentUrl = null;
+
+    #[Vich\UploadableField(mapping: 'movies', fileNameProperty: 'cover')]
     #[Groups(['movie:write'])]
     public ?File $coverFile = null;
 
@@ -77,15 +76,15 @@ class Movie
     #[Groups(['movie:write', 'movie:read'])]
     private $dateRelease;
 
-    #[ORM\ManyToMany(targetEntity: Actors::class, mappedBy: "movies")]
+    #[ORM\ManyToMany(targetEntity: Actor::class, mappedBy: "movies")]
     #[Groups(['movie:write', 'movie:read'])]
     private $actors;
 
-    #[ORM\ManyToMany(targetEntity: Categories::class, mappedBy: "movies")]
+    #[ORM\ManyToMany(targetEntity: Category::class, mappedBy: "movies")]
     #[Groups(['movie:write', 'movie:read'])]
     private $categories;
 
-    #[ORM\ManyToOne(targetEntity: Authors::class, inversedBy: "movies")]
+    #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: "movies")]
     #[Groups(['movie:write', 'movie:read'])]
     private $authors;
 
@@ -175,11 +174,11 @@ class Movie
      * @param MoviePhoto $moviePhoto
      * @return $this
      */
-    public function addProductImage(MoviePhoto $moviePhoto): self
+    public function addMoviePhoto(MoviePhoto $moviePhoto): self
     {
         if (!$this->moviesPhotos->contains($moviePhoto)) {
             $this->moviesPhotos[] = $moviePhoto;
-            $moviePhoto->setProduct($this);
+            $moviePhoto->setMovies($this);
         }
 
         return $this;
@@ -189,13 +188,13 @@ class Movie
      * @param MoviePhoto $moviePhoto
      * @return $this
      */
-    public function removeProductImage(MoviePhoto $moviePhoto): self
+    public function removeMoviePhoto(MoviePhoto $moviePhoto): self
     {
         if ($this->moviesPhotos->contains($moviePhoto)) {
             $this->moviesPhotos->removeElement($moviePhoto);
             // set the owning side to null (unless already changed)
-            if ($moviePhoto->getProduct() === $this) {
-                $moviePhoto->setProduct(null);
+            if ($moviePhoto->getMovies() === $this) {
+                $moviePhoto->setMovies(null);
             }
         }
 
@@ -261,14 +260,14 @@ class Movie
     }
 
     /**
-     * @return Collection|Actors[]
+     * @return Collection|Actor[]
      */
     public function getActors(): Collection
     {
         return $this->actors;
     }
 
-    public function addActor(Actors $actor): self
+    public function addActor(Actor $actor): self
     {
         if (!$this->actors->contains($actor)) {
             $this->actors[] = $actor;
@@ -276,7 +275,7 @@ class Movie
         return $this;
     }
 
-    public function removeActor(Actors $actor): self
+    public function removeActor(Actor $actor): self
     {
         $this->actors->removeElement($actor);
 
@@ -284,14 +283,14 @@ class Movie
     }
 
     /**
-     * @return Collection|Actors[]
+     * @return Collection|Actor[]
      */
     public function getCategories(): Collection
     {
         return $this->categories;
     }
 
-    public function addCategorie(Categories $categories): self
+    public function addCategory(Category $categories): self
     {
         if (!$this->categories->contains($categories)) {
             $this->categories[] = $categories;
@@ -299,7 +298,7 @@ class Movie
         return $this;
     }
 
-    public function removeCategorie(Categories $categories): self
+    public function removeCategory(Category $categories): self
     {
         $this->categories->removeElement($categories);
 
@@ -307,18 +306,18 @@ class Movie
     }
 
     /**
-     * @return Authors|null
+     * @return Author|null
      */
-    public function getAuthors(): ?Authors
+    public function getAuthors(): ?Author
     {
         return $this->authors;
     }
 
     /**
-     * @param Authors|null $authors
+     * @param Author|null $authors
      * @return Movie
      */
-    public function setAuthors(?Authors $authors): self
+    public function setAuthors(?Author $authors): self
     {
         $this->authors = $authors;
         return $this;

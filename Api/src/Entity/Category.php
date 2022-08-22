@@ -3,18 +3,18 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\CategoriesRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: CategoriesRepository::class)]
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ApiResource(
     denormalizationContext: ['groups' => ['categories:write']],
     normalizationContext: ['groups' => ['categories:read']],
 )]
-class Categories
+class Category
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -64,7 +64,7 @@ class Categories
     {
         if (!$this->movies->contains($movie)) {
             $this->movies[] = $movie;
-            $movie->addCategorie($this);
+            $movie->addCategory($this);
         }
         return $this;
     }
@@ -72,7 +72,7 @@ class Categories
     public function removeMovie(Movie $movie): self
     {
         if ($this->movies->removeElement($movie)) {
-            $movie->removeCategorie($this);
+            $movie->removeCategory($this);
         }
         return $this;
     }

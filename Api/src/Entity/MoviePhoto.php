@@ -10,10 +10,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
-/**
- * @Vich\Uploadable()
- */
 #[ORM\Entity(repositoryClass: MoviePhotoRepository::class)]
+#[Vich\Uploadable]
 #[ApiResource(
     collectionOperations: [
         'get',
@@ -39,13 +37,14 @@ class MoviePhoto
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['moviePhoto:read'])]
-    private $photoPath;
+    private $picture;
 
-    /**
-     * @Vich\UploadableField(mapping="movies", fileNameProperty="photoPath")
-     */
+    #[Groups(['moviePhoto:read'])]
+    public ?string $contentUrl = null;
+
+    #[Vich\UploadableField(mapping: 'movies', fileNameProperty: 'picture')]
     #[Groups(['moviePhoto:write', 'moviePhoto:read'])]
-    public ?File $photsFile = null;
+    public ?File $pictureFile = null;
 
     /**
      * @return int|null
@@ -77,18 +76,18 @@ class MoviePhoto
     /**
      * @return string|null
      */
-    public function getPhotoPath(): ?string
+    public function getPicture(): ?string
     {
-        return $this->photoPath;
+        return $this->picture;
     }
 
     /**
-     * @param string $photoPath
+     * @param string $picture
      * @return $this
      */
-    public function setPhotoPath(string $photoPath): self
+    public function setPicture(string $picture): self
     {
-        $this->photoPath = $photoPath;
+        $this->picture = $picture;
 
         return $this;
     }

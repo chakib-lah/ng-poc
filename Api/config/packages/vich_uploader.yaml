@@ -1,6 +1,9 @@
 vich_uploader:
     db_driver: orm
 
+    metadata:
+        type: attribute
+
     mappings:
         actors:
             uri_prefix: /images/actors

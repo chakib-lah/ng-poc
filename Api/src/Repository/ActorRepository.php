@@ -2,30 +2,30 @@
 
 namespace App\Repository;
 
-use App\Entity\Actors;
+use App\Entity\Actor;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Actors|null find($id, $lockMode = null, $lockVersion = null)
- * @method Actors|null findOneBy(array $criteria, array $orderBy = null)
- * @method Actors[]    findAll()
- * @method Actors[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Actor|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Actor|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Actor[]    findAll()
+ * @method Actor[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ActorsRepository extends ServiceEntityRepository
+class ActorRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Actors::class);
+        parent::__construct($registry, Actor::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Actors $entity, bool $flush = true): void
+    public function add(Actor $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class ActorsRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Actors $entity, bool $flush = true): void
+    public function remove(Actor $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {

@@ -2,30 +2,30 @@
 
 namespace App\Repository;
 
-use App\Entity\Authors;
+use App\Entity\Author;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Authors|null find($id, $lockMode = null, $lockVersion = null)
- * @method Authors|null findOneBy(array $criteria, array $orderBy = null)
- * @method Authors[]    findAll()
- * @method Authors[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Author|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Author|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Author[]    findAll()
+ * @method Author[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AuthorsRepository extends ServiceEntityRepository
+class AuthorRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Authors::class);
+        parent::__construct($registry, Author::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Authors $entity, bool $flush = true): void
+    public function add(Author $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class AuthorsRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Authors $entity, bool $flush = true): void
+    public function remove(Author $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {

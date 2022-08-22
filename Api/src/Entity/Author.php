@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\ActorsRepository;
+use App\Repository\AuthorRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,10 +13,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
-/**
- * @Vich\Uploadable()
- */
-#[ORM\Entity(repositoryClass: ActorsRepository::class)]
+#[ORM\Entity(repositoryClass: AuthorRepository::class)]
+#[Vich\Uploadable]
 #[ApiResource(
     collectionOperations: [
         'get',
@@ -26,10 +24,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
             ],
         ],
     ],
-    denormalizationContext: ['groups' => ['actors:write']],
-    normalizationContext: ['groups' => ['actors:read']],
+    denormalizationContext: ['groups' => ['author:write']],
+    normalizationContext: ['groups' => ['author:read']],
 )]
-class Actors
+class Author
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -37,30 +35,30 @@ class Actors
     private $id;
 
     #[ORM\Column(type: 'string', length: 60)]
-    #[Groups(['actors:write', 'actors:read'])]
+    #[Groups(['author:write', 'author:read'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 60)]
-    #[Groups(['actors:write', 'actors:read'])]
+    #[Groups(['author:write', 'author:read'])]
     private $lastName;
 
     #[ORM\Column(type: 'date')]
-    #[Groups(['actors:write', 'actors:read'])]
+    #[Groups(['author:write', 'author:read'])]
     private $birthDate;
 
-    /**
-     * @Vich\UploadableField(mapping="actors", fileNameProperty="photo")
-     */
-    #[Groups(['actors:write'])]
-    public ?File $photoFile = null;
+    #[Groups(['author:read'])]
+    public ?string $contentUrl = null;
+
+    #[Vich\UploadableField(mapping: 'authors', fileNameProperty: 'picture')]
+    #[Groups(['author:write'])]
+    public ?File $pictureFile = null;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['actors:read'])]
-    private $photo;
+    #[Groups(['author:read'])]
+    private $picture;
 
-    #[ORM\ManyToMany(targetEntity: Movie::class, inversedBy: "actors")]
-    #[ORM\JoinTable(name: "actors_movies")]
-    #[Groups(['actors:read'])]
+    #[ORM\OneToMany(mappedBy: "authors", targetEntity: Movie::class, orphanRemoval: true)]
+    #[Groups(['author:read'])]
     private $movies;
 
     public function __construct()
@@ -98,41 +96,42 @@ class Actors
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getBirthDate(): DateTime
+    public function getBirthDate(): ?DateTime
     {
         return $this->birthDate;
     }
 
     /**
      * @param DateTime $birthDate
-     * @return Actors
+     * @return Author
      */
     public function setBirthDate(DateTime $birthDate): self
     {
         $this->birthDate = $birthDate;
+
         return $this;
     }
 
     /**
      * @return string|null
      */
-    public function getPhoto(): ?string
+    public function getPicture(): ?string
     {
-        return $this->photo;
+        return $this->picture;
     }
 
     /**
-     * @param string|null $photo
-     * @return Actors
+     * @param string $picture
+     * @return Author
      */
-    public function setPhoto(?string $photo): self
+    public function setPicture(string $picture): self
     {
-        $this->photo = $photo;
+        $this->picture = $picture;
+
         return $this;
     }
-
 
     /**
      * @return Collection|Movie[]
@@ -142,20 +141,29 @@ class Actors
         return $this->movies;
     }
 
+    /**
+     * @param Movie $movie
+     * @return $this
+     */
     public function addMovie(Movie $movie): self
     {
         if (!$this->movies->contains($movie)) {
             $this->movies[] = $movie;
-            $movie->addActor($this);
+            $movie->setAuthors($this);
         }
+
         return $this;
     }
 
     public function removeMovie(Movie $movie): self
     {
-        if ($this->movies->removeElement($movie)) {
-            $movie->removeActor($this);
+        if ($this->movies->contains($movie)) {
+            $this->movies->removeElement($movie);
+            if ($movie->getAuthors() === $this) {
+                $movie->setAuthors(null);
+            }
         }
+
         return $this;
     }
 
