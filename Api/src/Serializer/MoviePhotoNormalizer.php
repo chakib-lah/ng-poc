@@ -12,7 +12,7 @@ class MoviePhotoNormalizer implements ContextAwareNormalizerInterface, Normalize
 {
     use NormalizerAwareTrait;
 
-    private const ALREADY_CALLED = 'MEDIA_OBJECT_NORMALIZER_ALREADY_CALLED';
+    private const ALREADY_CALLED = 'MOVIE_PHOTO_NORMALIZER_ALREADY_CALLED';
 
     public function __construct(private StorageInterface $storage)
     {
