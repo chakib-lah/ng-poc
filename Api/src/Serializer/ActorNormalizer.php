@@ -4,12 +4,12 @@ namespace App\Serializer;
 
 
 use App\Entity\Actor;
-use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
-final class ActorNormalizer implements ContextAwareNormalizerInterface, NormalizerAwareInterface
+final class ActorNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
 

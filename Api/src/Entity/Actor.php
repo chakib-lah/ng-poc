@@ -57,7 +57,7 @@ class Actor
     #[Groups(['actor:read'])]
     private $picture;
 
-    #[ORM\ManyToMany(targetEntity: Movie::class, inversedBy: "actor")]
+    #[ORM\ManyToMany(targetEntity: Movie::class, inversedBy: "actors")]
     #[ORM\JoinTable(name: "actors_movies")]
     #[Groups(['actor:read'])]
     private $movies;

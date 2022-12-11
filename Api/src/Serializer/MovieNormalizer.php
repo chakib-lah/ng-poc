@@ -3,12 +3,12 @@
 namespace App\Serializer;
 
 use App\Entity\Movie;
-use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
-class MovieNormalizer implements ContextAwareNormalizerInterface, NormalizerAwareInterface
+class MovieNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
 
