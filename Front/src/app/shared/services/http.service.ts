@@ -8,73 +8,73 @@ import {BASE_URL} from "../../tokens";
 @Injectable({
   providedIn: 'root'
 })
-export class HttpService {
+export class HttpService<R> {
 
   constructor(
       protected http: HttpClient,
       @Inject(BASE_URL) protected baseUrl: string
   ) { }
 
-  getRessources(url: string): Observable<any[]> {
+  getRessources(url: string): Observable<R[]> {
     const serviceUrl = this.baseUrl + url;
     const headers = new HttpHeaders().set('Accept', 'application/json');
-    return this.http.get<any[]>(serviceUrl, { headers }).pipe(
+    return this.http.get<R[]>(serviceUrl, { headers }).pipe(
         catchError(this.handleError)
     );
   }
 
-  getRessourceById(url: string, id: number): Observable<any> {
+  getRessourceById(url: string, id: number): Observable<R> {
     const serviceUrl = this.baseUrl + url + '/' + id;
     const headers = new HttpHeaders().set('Accept', 'application/json');
-    return this.http.get<any>(serviceUrl, { headers }).pipe(
+    return this.http.get<R>(serviceUrl, { headers }).pipe(
         catchError(this.handleError)
     );
   }
 
-  getRessourceByCriteria(url: string, ...criteria: string[]): Observable<any[]> {
+  getRessourceByCriteria(url: string, ...criteria: string[]): Observable<R[]> {
     const serviceUrl = this.baseUrl + url + '?' + criteria.join('&');
     const headers = new HttpHeaders().set('Accept', 'application/json');
-    return this.http.get<any[]>(serviceUrl, { headers }).pipe(
+    return this.http.get<R[]>(serviceUrl, { headers }).pipe(
         catchError(this.handleError)
     );
   }
 
-  createRessource(url: string, ressource: any): Observable<any> {
+  createRessource(url: string, ressource: R): Observable<R> {
     const serviceUrl = this.baseUrl + url;
     const headers = new HttpHeaders().set('Accept', 'application/json');
-    return this.http.post<any>(serviceUrl, ressource, { headers }).pipe(
+    return this.http.post<R>(serviceUrl, ressource, { headers }).pipe(
         catchError(this.handleError)
     );
   }
 
-  editRessource(url: string, ressource: any): Observable<any> {
-    const serviceUrl = this.baseUrl + url + '/' + ressource.id;
-    const headers = new HttpHeaders().set('Accept', 'application/json');
-    return this.http.put<any>(serviceUrl, ressource, { headers }).pipe(
-        catchError(this.handleError)
-    );
-  }
-
-  deleteRessource(url: string, id: number): Observable<any> {
+  editRessource(url: string, id: number, ressource: R): Observable<R> {
     const serviceUrl = this.baseUrl + url + '/' + id;
     const headers = new HttpHeaders().set('Accept', 'application/json');
-    return this.http.delete<any>(serviceUrl, { headers }).pipe(
+    return this.http.put<R>(serviceUrl, ressource, { headers }).pipe(
         catchError(this.handleError)
     );
   }
 
-  genericSearchApi(url: string, ...query: string[]): Observable<any> {
+  deleteRessource(url: string, id: number): Observable<R> {
+    const serviceUrl = this.baseUrl + url + '/' + id;
+    const headers = new HttpHeaders().set('Accept', 'application/json');
+    return this.http.delete<R>(serviceUrl, { headers }).pipe(
+        catchError(this.handleError)
+    );
+  }
+
+  genericSearchApi(url: string, ...query: string[]): Observable<R> {
     let serviceUrl = this.baseUrl + url + '?' + query.join('&');
     if (query.length === 0) {
       serviceUrl = this.baseUrl + url;
     }
     const headers = new HttpHeaders().set('Accept', 'application/ld+json');
-    return this.http.get<any>(serviceUrl, {headers}).pipe(
+    return this.http.get<R>(serviceUrl, {headers}).pipe(
         map( data => ({
           results: data['hydra:member'],
           count: data['hydra:totalItems'],
           links: data['hydra:view']
-        })),
+        }) as R),
         catchError(this.handleError)
     );
   }
