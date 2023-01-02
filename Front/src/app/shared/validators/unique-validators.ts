@@ -7,7 +7,7 @@ export class UniqueValidators {
 
      static uniqueMatch (registerService: RegisterService, criteria: string): AsyncValidatorFn {
         return (control: AbstractControl) => {
-            return  registerService.getRessourceByCriteria("/api/check-unique-user", 'slug=' + control.value)
+            return  registerService.getResourceByCriteria("/api/check-unique-user", 'slug=' + control.value)
                 .pipe(
                     map(res => res ? { 'unique': true } : null
                     )

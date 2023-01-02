@@ -1,45 +1,49 @@
 <mat-toolbar class="header">
-    <button mat-icon-button class="nav-icon" aria-label="icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
+  <button mat-icon-button class="nav-icon" aria-label="icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <button mat-button routerLink="/welcome">
+    <span>Ng-Poc</span>
+  </button>
+  <button mat-button routerLink="#">
+    <span>TOP 100</span>
+  </button>
+  <button mat-button [matMenuTriggerFor]="menu" *ngIf="authService.isLoggedIn() && authService.hasRole('ROLE_ADMIN')">
+    <span>Settings</span>
+  </button>
+  <mat-form-field class="example-full-width">
+    <input type="text" matInput placeholder="Search">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+  <mat-menu #menu="matMenu">
+    <button routerLink="#" mat-menu-item>
+      <span>Content</span>
     </button>
-    <button mat-button routerLink="/welcome">
-        <span>Ng-Poc</span>
+    <button routerLink="#" mat-menu-item>
+      <span>Users</span>
     </button>
-    <button mat-button routerLink="#">
-        <span>TOP 100</span>
+    <button routerLink="#" mat-menu-item>
+      <span>Permissions</span>
     </button>
-    <button mat-button [matMenuTriggerFor]="menu" *ngIf="authService.isLoggedIn() && authService.hasRole('ROLE_ADMIN')">
-        <span>Settings</span>
-    </button>
-    <mat-menu #menu="matMenu">
-        <button routerLink="#" mat-menu-item>
-            <span>Content</span>
-        </button>
-        <button routerLink="#" mat-menu-item>
-            <span>Users</span>
-        </button>
-        <button routerLink="#" mat-menu-item>
-            <span>Permissions</span>
-        </button>
-    </mat-menu>
+  </mat-menu>
 
-    <span class="spacer"></span>
-    <button mat-icon-button [matMenuTriggerFor]="menuProfile">
-        <mat-icon>account_circle</mat-icon>
+  <span class="spacer"></span>
+  <button mat-icon-button [matMenuTriggerFor]="menuProfile">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <mat-menu #menuProfile="matMenu">
+    <button mat-menu-item *ngIf="!authService.isLoggedIn(); else loggedOut" routerLink="/login">
+      <span>Login</span>
     </button>
-    <mat-menu #menuProfile="matMenu">
-        <button mat-menu-item *ngIf="!authService.isLoggedIn(); else loggedOut" routerLink="/login">
-            <span>Login</span>
-        </button>
-        <ng-template #loggedOut>
-            <button routerLink="#" mat-menu-item>
-                <span>Profile</span>
-            </button>
-            <button (click)="logout()" mat-menu-item>
-                <span>Logout</span>
-            </button>
-        </ng-template>
-    </mat-menu>
+    <ng-template #loggedOut>
+      <button routerLink="#" mat-menu-item>
+        <span>Profile</span>
+      </button>
+      <button (click)="logout()" mat-menu-item>
+        <span>Logout</span>
+      </button>
+    </ng-template>
+  </mat-menu>
 </mat-toolbar>
 
 

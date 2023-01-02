@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
 import {BASE_URL} from "../../tokens";
 
@@ -11,71 +11,56 @@ import {BASE_URL} from "../../tokens";
 export class HttpService<R> {
 
   constructor(
-      protected http: HttpClient,
-      @Inject(BASE_URL) protected baseUrl: string
-  ) { }
+    protected http: HttpClient,
+    @Inject(BASE_URL) protected baseUrl: string
+  ) {
+  }
 
-  getRessources(url: string): Observable<R[]> {
+  getResources(url: string): Observable<R[]> {
     const serviceUrl = this.baseUrl + url;
     const headers = new HttpHeaders().set('Accept', 'application/json');
-    return this.http.get<R[]>(serviceUrl, { headers }).pipe(
-        catchError(this.handleError)
+    return this.http.get<R[]>(serviceUrl, {headers}).pipe(
+      catchError(this.handleError)
     );
   }
 
-  getRessourceById(url: string, id: number): Observable<R> {
+  getResourceById(url: string, id: number): Observable<R> {
     const serviceUrl = this.baseUrl + url + '/' + id;
     const headers = new HttpHeaders().set('Accept', 'application/json');
-    return this.http.get<R>(serviceUrl, { headers }).pipe(
-        catchError(this.handleError)
+    return this.http.get<R>(serviceUrl, {headers}).pipe(
+      catchError(this.handleError)
     );
   }
 
-  getRessourceByCriteria(url: string, ...criteria: string[]): Observable<R[]> {
+  getResourceByCriteria(url: string, ...criteria: string[]): Observable<R[]> {
     const serviceUrl = this.baseUrl + url + '?' + criteria.join('&');
     const headers = new HttpHeaders().set('Accept', 'application/json');
-    return this.http.get<R[]>(serviceUrl, { headers }).pipe(
-        catchError(this.handleError)
+    return this.http.get<R[]>(serviceUrl, {headers}).pipe(
+      catchError(this.handleError)
     );
   }
 
-  createRessource(url: string, ressource: R): Observable<R> {
+  createResource(url: string, resource: R): Observable<R> {
     const serviceUrl = this.baseUrl + url;
     const headers = new HttpHeaders().set('Accept', 'application/json');
-    return this.http.post<R>(serviceUrl, ressource, { headers }).pipe(
-        catchError(this.handleError)
+    return this.http.post<R>(serviceUrl, resource, {headers}).pipe(
+      catchError(this.handleError)
     );
   }
 
-  editRessource(url: string, id: number, ressource: R): Observable<R> {
+  editResource(url: string, id: number, resource: R): Observable<R> {
     const serviceUrl = this.baseUrl + url + '/' + id;
     const headers = new HttpHeaders().set('Accept', 'application/json');
-    return this.http.put<R>(serviceUrl, ressource, { headers }).pipe(
-        catchError(this.handleError)
+    return this.http.put<R>(serviceUrl, resource, {headers}).pipe(
+      catchError(this.handleError)
     );
   }
 
-  deleteRessource(url: string, id: number): Observable<R> {
+  deleteResource(url: string, id: number): Observable<R> {
     const serviceUrl = this.baseUrl + url + '/' + id;
     const headers = new HttpHeaders().set('Accept', 'application/json');
-    return this.http.delete<R>(serviceUrl, { headers }).pipe(
-        catchError(this.handleError)
-    );
-  }
-
-  genericSearchApi(url: string, ...query: string[]): Observable<R> {
-    let serviceUrl = this.baseUrl + url + '?' + query.join('&');
-    if (query.length === 0) {
-      serviceUrl = this.baseUrl + url;
-    }
-    const headers = new HttpHeaders().set('Accept', 'application/ld+json');
-    return this.http.get<R>(serviceUrl, {headers}).pipe(
-        map( data => ({
-          results: data['hydra:member'],
-          count: data['hydra:totalItems'],
-          links: data['hydra:view']
-        }) as R),
-        catchError(this.handleError)
+    return this.http.delete<R>(serviceUrl, {headers}).pipe(
+      catchError(this.handleError)
     );
   }
 
