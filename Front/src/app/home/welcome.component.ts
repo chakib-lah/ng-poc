@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { MovieService } from "../movie/services/movie.service";
-import {Movie} from "../movie/models/movie";
-import {Subscription} from "rxjs";
+import { Movie } from "../movie/models/movie";
+import { Subject, takeUntil } from "rxjs";
 
 @Component({
   selector: 'app-welcome',
@@ -12,12 +12,13 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
   lastReleaseMovies: Movie[] = [];
   comingSoonMovies: Movie[] = [];
-  sub!: Subscription;
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private movieService: MovieService) { }
 
   ngOnInit(): void {
-    this.sub = this.movieService.getReleaseMovie()
+    this.movieService.getReleaseMovie()
+      .pipe(takeUntil(this.destroy$))
       .subscribe(
         movies => {
           this.lastReleaseMovies = movies;
@@ -26,6 +27,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
       )
 
     this.movieService.getComingSoonMovie()
+      .pipe(takeUntil(this.destroy$))
       .subscribe(
         movies => {
           this.comingSoonMovies = movies;
@@ -35,7 +37,8 @@ export class WelcomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
 }
