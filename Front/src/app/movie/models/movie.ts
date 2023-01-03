@@ -10,10 +10,10 @@ export interface Movie {
     contentUrl: string | null;
     cover: string;
     moviesPhotos: string[]
-    score: string;
+    score: string | null;
     country: string;
     dateRelease: Date;
-    /*author: Author;
-    actor: Actor[];
-    category: Category[]*/
+    author?: Author;
+    actor?: Actor[];
+    category?: Category[]
 }

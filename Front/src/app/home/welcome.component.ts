@@ -10,7 +10,8 @@ import {Subscription} from "rxjs";
 })
 export class WelcomeComponent implements OnInit, OnDestroy {
 
-  movies: Movie[] = [];
+  lastReleaseMovies: Movie[] = [];
+  comingSoonMovies: Movie[] = [];
   sub!: Subscription;
 
   constructor(private movieService: MovieService) { }
@@ -19,8 +20,16 @@ export class WelcomeComponent implements OnInit, OnDestroy {
     this.sub = this.movieService.getReleaseMovie()
       .subscribe(
         movies => {
-          this.movies = movies;
-          console.log(this.movies)
+          this.lastReleaseMovies = movies;
+          console.log(this.lastReleaseMovies)
+        }
+      )
+
+    this.movieService.getComingSoonMovie()
+      .subscribe(
+        movies => {
+          this.comingSoonMovies = movies;
+          console.log(this.comingSoonMovies)
         }
       )
   }
