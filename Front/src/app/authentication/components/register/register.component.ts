@@ -109,7 +109,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     public register(): void {
         if (this.registerForm.valid) {
             // TODO show a toaster for user in successful sign up
-            this.registerService.createRessource('/api/users', this.registerForm.value)
+            this.registerService.createResource('/api/users', this.registerForm.value)
                 .subscribe({
                     next: () => this.router.navigateByUrl('/login'),
                     error: err => console.log(err)

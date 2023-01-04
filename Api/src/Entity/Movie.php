@@ -30,6 +30,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
     ],
     denormalizationContext: ['groups' => ['movie:write']],
     normalizationContext: ['groups' => ['movie:read']],
+    paginationClientItemsPerPage: true
 )]
 #[ApiFilter(OrderFilter::class, properties: ['dateRelease' => 'DESC'])]
 #[ApiFilter(DateFilter::class, properties: ['dateRelease'])]
@@ -45,7 +46,7 @@ class Movie
     #[Groups(['movie:write', 'movie:read'])]
     private $title;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     #[Groups(['movie:write', 'movie:read'])]
     private $description;
 
@@ -64,7 +65,7 @@ class Movie
     #[Groups(['movie:read'])]
     private $moviesPhotos;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
+    #[ORM\Column(type: 'string', nullable: true)]
     #[Groups(['movie:write', 'movie:read'])]
     private $score;
 
@@ -89,7 +90,7 @@ class Movie
     private $authors;
 
     #[ORM\OneToMany(mappedBy: "movies", targetEntity: Comment::class, orphanRemoval: true)]
-    #[Groups(['movie:write', 'movie:read'])]
+    #[Groups(['movie:read'])]
     private $comments;
 
     public function __construct()
@@ -202,18 +203,18 @@ class Movie
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getScore(): ?int
+    public function getScore(): ?string
     {
         return $this->score;
     }
 
     /**
-     * @param int|null $score
+     * @param string|null $score
      * @return Movie
      */
-    public function setScore(?int $score): self
+    public function setScore(?string $score): self
     {
         $this->score = $score;
 

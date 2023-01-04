@@ -4,6 +4,6 @@ import { HttpService } from "../../shared/services/http.service";
 @Injectable({
   providedIn: 'root'
 })
-export class RegisterService extends HttpService {
+export class RegisterService extends HttpService<boolean> {
 
 }
