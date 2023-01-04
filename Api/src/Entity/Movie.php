@@ -30,6 +30,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
     ],
     denormalizationContext: ['groups' => ['movie:write']],
     normalizationContext: ['groups' => ['movie:read']],
+    paginationClientItemsPerPage: true
 )]
 #[ApiFilter(OrderFilter::class, properties: ['dateRelease' => 'DESC'])]
 #[ApiFilter(DateFilter::class, properties: ['dateRelease'])]

@@ -22,7 +22,6 @@ export class WelcomeComponent implements OnInit, OnDestroy {
       .subscribe(
         movies => {
           this.lastReleaseMovies = movies;
-          console.log(this.lastReleaseMovies)
         }
       )
 
@@ -31,7 +30,6 @@ export class WelcomeComponent implements OnInit, OnDestroy {
       .subscribe(
         movies => {
           this.comingSoonMovies = movies;
-          console.log(this.comingSoonMovies)
         }
       )
   }
