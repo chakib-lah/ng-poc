@@ -12,8 +12,8 @@
     <span>Settings</span>
   </button>
   <mat-form-field class="example-full-width">
-    <input type="text" matInput placeholder="Search">
-    <mat-icon matSuffix>search</mat-icon>
+    <input type="text" matInput placeholder="Search" name="search" id="search" #search (keyup.enter)="getMovie(search.value)">
+    <button matSuffix mat-button (click)="getMovie(search.value)"><mat-icon>search</mat-icon></button>
   </mat-form-field>
   <mat-menu #menu="matMenu">
     <button routerLink="#" mat-menu-item>
