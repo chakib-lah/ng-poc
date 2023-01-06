@@ -1,4 +1,5 @@
 export enum LoaderEnum {
   lastReleaseLoading = "lastReleaseLoading",
-  comingSoonLoading = "comingSoonLoading"
+  comingSoonLoading = "comingSoonLoading",
+  searchLoading = "searchLoading"
 }

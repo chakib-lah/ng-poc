@@ -4,11 +4,13 @@ import { MaterialModule } from './material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from "@angular/router";
 import { SpinnerComponent } from './spinner/spinner.component';
+import { SearchComponent } from './search/search.component';
 
 
 @NgModule({
   declarations: [
-    SpinnerComponent
+    SpinnerComponent,
+    SearchComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
     CommonModule,
     ReactiveFormsModule,
     MaterialModule,
-    SpinnerComponent
+    SpinnerComponent,
+    SearchComponent
   ]
 })
 export class SharedModule {

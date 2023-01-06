@@ -17,7 +17,7 @@ export class MovieService extends HttpService<Movie> {
   todayFormat = this.pipe.transform(this.today, 'YYYY-MM-dd');
 
   getLastReleaseMovie(): Observable<Movie[]> {
-    return this.getResourceByCriteria(this.moviesAPI, ...['dateRelease[before]=' + this.todayFormat,'order[dateRelease]=desc', 'itemsPerPage=6'])
+    return this.getResourceByCriteria(this.moviesAPI, ...['dateRelease[before]=' + this.todayFormat, 'order[dateRelease]=desc', 'itemsPerPage=6'])
       .pipe(
         map((movies: Movie[]) => movies.map(
           movie => ({
@@ -30,6 +30,19 @@ export class MovieService extends HttpService<Movie> {
 
   getComingSoonMovie(): Observable<Movie[]> {
     return this.getResourceByCriteria(this.moviesAPI, 'dateRelease[after]=' + this.todayFormat, 'itemsPerPage=3')
+      .pipe(
+        map((movies: Movie[]) => movies.map(
+          movie => ({
+            ...movie,
+            contentUrl: movie.contentUrl ? this.baseUrl + '/' + movie.contentUrl : null,
+            score: movie.score ?? '- -',
+          })
+        ))
+      )
+  }
+
+  getMoviesByTitle(value: string|null): Observable<Movie[]> {
+    return this.getResourceByCriteria(this.moviesAPI, 'title=' + value, 'itemsPerPage=3')
       .pipe(
         map((movies: Movie[]) => movies.map(
           movie => ({

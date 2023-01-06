@@ -11,10 +11,7 @@
   <button mat-button [matMenuTriggerFor]="menu" *ngIf="authService.isLoggedIn() && authService.hasRole('ROLE_ADMIN')">
     <span>Settings</span>
   </button>
-  <mat-form-field class="example-full-width">
-    <input type="text" matInput placeholder="Search">
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
+  <app-search [page]="pageValue.moviePage"></app-search>
   <mat-menu #menu="matMenu">
     <button routerLink="#" mat-menu-item>
       <span>Content</span>
