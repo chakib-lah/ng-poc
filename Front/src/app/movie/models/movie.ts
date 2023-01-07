@@ -1,7 +1,7 @@
 // TODO: update model - to be completed with appropriate props
-import {Author} from "../../author/models/author";
-import {Category} from "../../category/models/category";
-import {Actor} from "../../actor/models/actor";
+import {Author} from "../../shared/models/author";
+import {Category} from "../../shared/models/category";
+import {Actor} from "../../shared/models/actor";
 
 export interface Movie {
     id: number;
