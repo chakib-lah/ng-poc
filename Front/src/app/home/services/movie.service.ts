@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from "../../shared/services/http.service";
-import { Movie } from '../models/movie';
+import { Movie } from '../../movie/models/movie';
 import { Observable } from "rxjs/internal/Observable";
 import { map } from "rxjs/operators";
 import { DatePipe } from "@angular/common";
@@ -10,12 +10,14 @@ import { DatePipe } from "@angular/common";
 })
 export class MovieService extends HttpService<Movie> {
 
+  private readonly moviesAPI = '/api/movies';
+
   pipe = new DatePipe('en-US');
   today = new Date();
   todayFormat = this.pipe.transform(this.today, 'YYYY-MM-dd');
 
   getReleaseMovie(): Observable<Movie[]> {
-    return this.getResourceByCriteria('/api/movies', ...['dateRelease[before]=' + this.todayFormat,'order[dateRelease]=desc', 'itemsPerPage=6'])
+    return this.getResourceByCriteria(this.moviesAPI, ...['dateRelease[before]=' + this.todayFormat,'order[dateRelease]=desc', 'itemsPerPage=6'])
       .pipe(
         map((movies: Movie[]) => movies.map(
           movie => ({
@@ -27,7 +29,7 @@ export class MovieService extends HttpService<Movie> {
   }
 
   getComingSoonMovie(): Observable<Movie[]> {
-    return this.getResourceByCriteria('/api/movies', 'dateRelease[after]=' + this.todayFormat, 'itemsPerPage=3')
+    return this.getResourceByCriteria(this.moviesAPI, 'dateRelease[after]=' + this.todayFormat, 'itemsPerPage=3')
       .pipe(
         map((movies: Movie[]) => movies.map(
           movie => ({

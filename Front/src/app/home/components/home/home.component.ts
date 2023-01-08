@@ -1,23 +1,24 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import { MovieService } from "../movie/services/movie.service";
-import { Movie } from "../movie/models/movie";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Movie } from "../../../movie/models/movie";
 import { Subject, takeUntil } from "rxjs";
+import { HomeFacade } from "../../home.facade";
 
 @Component({
-  selector: 'app-welcome',
-  templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.scss']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
-export class WelcomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy {
 
   lastReleaseMovies: Movie[] = [];
   comingSoonMovies: Movie[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private movieService: MovieService) { }
+  constructor(private homeFacade: HomeFacade) {
+  }
 
   ngOnInit(): void {
-    this.movieService.getReleaseMovie()
+    this.homeFacade.getReleaseMovie$()
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         movies => {
@@ -25,13 +26,13 @@ export class WelcomeComponent implements OnInit, OnDestroy {
         }
       )
 
-    this.movieService.getComingSoonMovie()
+    this.homeFacade.getComingSoonMovie$()
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         movies => {
           this.comingSoonMovies = movies;
         }
-      )
+      );
   }
 
   ngOnDestroy(): void {
