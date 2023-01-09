@@ -23,11 +23,27 @@ export class HomeFacade {
   }
 
   getReleaseMovie$(): Observable<Movie[]> {
-    return this.movieAPI.getReleaseMovie();
+    return this.homeState.getLastReleaseMovie$();
+  }
+
+  loadLastReleaseMovie() {
+    this.movieAPI.getLastReleaseMovie()
+      .subscribe({
+        next: movies => this.homeState.setReleaseMovie$(movies),
+        error: err => console.log(err)
+      })
   }
 
   getComingSoonMovie$(): Observable<Movie[]> {
-    return this.movieAPI.getComingSoonMovie()
+    return this.homeState.getComingSoonMovie$()
+  }
+
+  loadComingSoonMovie() {
+    this.movieAPI.getComingSoonMovie()
+      .subscribe({
+        next: movies => this.homeState.setComingSoonMovie$(movies),
+        error: err => console.log(err)
+      })
   }
 
 

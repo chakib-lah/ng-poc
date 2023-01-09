@@ -20,19 +20,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.homeFacade.getReleaseMovie$()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        movies => {
-          this.lastReleaseMovies = movies;
-        }
-      )
+      .subscribe({
+        next: movies => this.lastReleaseMovies = movies,
+        error: err => console.log(err)
+      });
+    this.homeFacade.loadLastReleaseMovie();
 
     this.homeFacade.getComingSoonMovie$()
       .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        movies => {
-          this.comingSoonMovies = movies;
-        }
-      );
+      .subscribe({
+        next: movies => this.comingSoonMovies = movies,
+        error: err => console.log(err)
+      });
+    this.homeFacade.loadComingSoonMovie();
   }
 
   ngOnDestroy(): void {

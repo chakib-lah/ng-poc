@@ -11,6 +11,10 @@ export class HomeState {
   private updating$ = new BehaviorSubject<boolean>(false);
   // @ts-ignore
   private movies$ = new BehaviorSubject<Movie[]>(null);
+  // @ts-ignore
+  private lastReleaseMovie$ = new BehaviorSubject<Movie[]>(null);
+  // @ts-ignore
+  private comingSoonMovie$ = new BehaviorSubject<Movie[]>(null);
 
 
   isUpdating$() {
@@ -29,4 +33,20 @@ export class HomeState {
     this.movies$.next(movies);
   }
 
+
+  getLastReleaseMovie$() {
+    return this.lastReleaseMovie$.asObservable();
+  }
+
+  setReleaseMovie$(movies: Movie[]) {
+    this.lastReleaseMovie$.next(movies);
+  }
+
+  getComingSoonMovie$() {
+    return this.comingSoonMovie$.asObservable();
+  }
+
+  setComingSoonMovie$(movies: Movie[]) {
+    this.comingSoonMovie$.next(movies);
+  }
 }
