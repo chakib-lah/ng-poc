@@ -13,11 +13,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   lastReleaseMovies: Movie[] = [];
   comingSoonMovies: Movie[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
+  isLoading: boolean = false;
 
   constructor(private homeFacade: HomeFacade) {
   }
 
   ngOnInit(): void {
+    this.homeFacade.isUpdating$()
+      .subscribe({
+        next: isUpdating => this.isLoading = isUpdating,
+        error: err => console.log(err)
+      });
+
     this.homeFacade.getReleaseMovie$()
       .pipe(takeUntil(this.destroy$))
       .subscribe({

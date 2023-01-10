@@ -18,19 +18,17 @@ export class HomeFacade {
     return this.homeState.isUpdating$();
   }
 
-  getMovies$(): Observable<Movie[]> {
-    return this.homeState.getMovies$();
-  }
-
   getReleaseMovie$(): Observable<Movie[]> {
     return this.homeState.getLastReleaseMovie$();
   }
 
   loadLastReleaseMovie() {
+    this.homeState.setUpdating$(true);
     this.movieAPI.getLastReleaseMovie()
       .subscribe({
         next: movies => this.homeState.setReleaseMovie$(movies),
-        error: err => console.log(err)
+        error: err => console.log(err),
+        complete: () => this.homeState.setUpdating$(false)
       })
   }
 
@@ -39,10 +37,12 @@ export class HomeFacade {
   }
 
   loadComingSoonMovie() {
+    this.homeState.setUpdating$(true);
     this.movieAPI.getComingSoonMovie()
       .subscribe({
         next: movies => this.homeState.setComingSoonMovie$(movies),
-        error: err => console.log(err)
+        error: err => console.log(err),
+        complete: () => this.homeState.setUpdating$(false)
       })
   }
 
