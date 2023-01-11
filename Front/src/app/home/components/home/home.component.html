@@ -1,0 +1,62 @@
+
+<!-- Marketing messaging and featurettes
+================================================== -->
+<!-- Wrap the rest of the page in another container to center all the content. -->
+
+<div>
+
+  <!-- Three columns of text below the carousel -->
+
+  <h1 class="fw-normal">Last Release</h1>
+  <div class="row">
+    <app-spinner [loader]=spinnerValue.lastReleaseLoading></app-spinner>
+    <div *ngFor="let movie of lastReleaseMovies" class="col-lg-4">
+      <img [src]="movie.contentUrl ?? 'assets/images/notAvailable.jpg'" [title]="movie.title" width="140" height="140" class="bd-placeholder-img rounded-circle" alt="movie.title">
+      <h2 class="fw-normal">{{ movie.title }}</h2>
+      <div><mat-icon>stars</mat-icon><span> {{ movie.score }}</span></div>
+<!--      <p>{{ movie.description }}</p>-->
+      <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+    </div><!-- /.col-lg-4 -->
+<!--    <div class="col-lg-4">
+      <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+
+      <h2 class="fw-normal">Heading</h2>
+      <p>And lastly this, the third column of representative placeholder content.</p>
+      <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+    </div>&lt;!&ndash; /.col-lg-4 &ndash;&gt;-->
+  </div><!-- /.row -->
+
+
+  <!-- START THE FEATURETTES -->
+
+  <hr class="featurette-divider">
+  <h1 class="fw-normal">Coming Soon</h1>
+  <div class="row featurette">
+    <app-spinner [loader]=spinnerValue.comingSoonLoading></app-spinner>
+    <div class="col-md-5" *ngFor="let movie of comingSoonMovies">
+      <img [src]="movie.contentUrl ?? 'assets/images/notAvailable.jpg'" [title]="movie.title" width="140" height="140" class="bd-placeholder-img" alt="movie.title">
+      <h2 class="featurette-heading fw-normal lh-1">{{ movie.title }}</h2>
+      <div><mat-icon>stars</mat-icon><span> {{ movie.score }}</span></div>
+      <p><a class="btn btn-secondary" href="#">View details &raquo;</a></p>
+    </div>
+  </div>
+
+  <!--<hr class="featurette-divider">
+
+  <div class="row featurette">
+    <div class="col-md-7">
+      <h2 class="featurette-heading fw-normal lh-1">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
+      <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really intended to be actually read, simply here to give you a better view of what this would look like with some actual content. Your content.</p>
+    </div>
+    <div class="col-md-5">
+      <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+
+    </div>
+  </div>
+
+  <hr class="featurette-divider">-->
+
+  <!-- /END THE FEATURETTES -->
+
+</div><!-- /.container -->
+

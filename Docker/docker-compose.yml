@@ -6,7 +6,7 @@ services:
       context: ./images/php-fpm
     container_name: ng-poc-php
     volumes:
-      - ../Api:/var/www/ng-poc/Api
+      - ../Api:/var/www/ng-poc
     depends_on:
       - ngdb
   nginx:
