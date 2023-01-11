@@ -9,6 +9,7 @@
 
   <h1 class="fw-normal">Last Release</h1>
   <div class="row">
+    <app-spinner [loader]=spinnerValue.lastReleaseLoading></app-spinner>
     <div *ngFor="let movie of lastReleaseMovies" class="col-lg-4">
       <img [src]="movie.contentUrl ?? 'assets/images/notAvailable.jpg'" [title]="movie.title" width="140" height="140" class="bd-placeholder-img rounded-circle" alt="movie.title">
       <h2 class="fw-normal">{{ movie.title }}</h2>
@@ -31,6 +32,7 @@
   <hr class="featurette-divider">
   <h1 class="fw-normal">Coming Soon</h1>
   <div class="row featurette">
+    <app-spinner [loader]=spinnerValue.comingSoonLoading></app-spinner>
     <div class="col-md-5" *ngFor="let movie of comingSoonMovies">
       <img [src]="movie.contentUrl ?? 'assets/images/notAvailable.jpg'" [title]="movie.title" width="140" height="140" class="bd-placeholder-img" alt="movie.title">
       <h2 class="featurette-heading fw-normal lh-1">{{ movie.title }}</h2>

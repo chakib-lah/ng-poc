@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MovieComponent } from "./components/movie.component";
 import { ProtectedGuard } from "ngx-auth";
+import {MovieListComponent} from "./components/movie-list/movie-list.component";
 
 const routes: Routes = [
-  { path: 'listMovie', component: MovieComponent , canActivate: [ProtectedGuard]}
+  { path: 'listMovie', component: MovieListComponent , canActivate: [ProtectedGuard]}
 ];
 
 @NgModule({
