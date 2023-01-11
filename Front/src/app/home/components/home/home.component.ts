@@ -14,7 +14,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   lastReleaseMovies: Movie[] = [];
   comingSoonMovies: Movie[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
-  isLoading: boolean = false;
   spinnerValue = LoaderEnum;
 
   constructor(private homeFacade: HomeFacade) {
