@@ -8,31 +8,10 @@ import { Movie } from "../../movie/models/movie";
 })
 export class HomeState {
 
-  private updating$ = new BehaviorSubject<boolean>(false);
-  // @ts-ignore
-  private movies$ = new BehaviorSubject<Movie[]>(null);
   // @ts-ignore
   private lastReleaseMovie$ = new BehaviorSubject<Movie[]>(null);
   // @ts-ignore
   private comingSoonMovie$ = new BehaviorSubject<Movie[]>(null);
-
-
-  isUpdating$() {
-    return this.updating$.asObservable();
-  }
-
-  setUpdating$(isUpdating: boolean) {
-    this.updating$.next(isUpdating);
-  }
-
-  getMovies$() {
-    return this.movies$.asObservable();
-  }
-
-  setMovies(movies: Movie[]) {
-    this.movies$.next(movies);
-  }
-
 
   getLastReleaseMovie$() {
     return this.lastReleaseMovie$.asObservable();

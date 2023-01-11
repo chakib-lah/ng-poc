@@ -3,6 +3,8 @@ import { MovieService } from "./services/movie.service";
 import { HomeState } from "./state/home.state";
 import { Observable } from "rxjs/internal/Observable";
 import { Movie } from "../movie/models/movie";
+import { LoaderEnum } from "../shared/spinner/loaderEnum";
+import { LoaderState } from "../shared/spinner/loader.state";
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +12,9 @@ import { Movie } from "../movie/models/movie";
 export class HomeFacade {
   constructor(
     private movieAPI: MovieService,
-    private homeState: HomeState
+    private homeState: HomeState,
+    private loaderState: LoaderState
   ) {
-  }
-
-  isUpdating$(): Observable<boolean> {
-    return this.homeState.isUpdating$();
   }
 
   getReleaseMovie$(): Observable<Movie[]> {
@@ -23,12 +22,12 @@ export class HomeFacade {
   }
 
   loadLastReleaseMovie() {
-    this.homeState.setUpdating$(true);
+    this.loaderState.startLoader$(LoaderEnum.lastReleaseLoading);
     this.movieAPI.getLastReleaseMovie()
       .subscribe({
         next: movies => this.homeState.setReleaseMovie$(movies),
         error: err => console.log(err),
-        complete: () => this.homeState.setUpdating$(false)
+        complete: () => this.loaderState.stopLoader$(LoaderEnum.lastReleaseLoading)
       })
   }
 
@@ -37,12 +36,12 @@ export class HomeFacade {
   }
 
   loadComingSoonMovie() {
-    this.homeState.setUpdating$(true);
+    this.loaderState.startLoader$(LoaderEnum.comingSoonLoading);
     this.movieAPI.getComingSoonMovie()
       .subscribe({
         next: movies => this.homeState.setComingSoonMovie$(movies),
         error: err => console.log(err),
-        complete: () => this.homeState.setUpdating$(false)
+        complete: () => this.loaderState.stopLoader$(LoaderEnum.comingSoonLoading)
       })
   }
 

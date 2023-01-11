@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from './material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from "@angular/router";
-
+import { SpinnerComponent } from './spinner/spinner.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    SpinnerComponent
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -17,7 +19,9 @@ import { RouterModule } from "@angular/router";
   exports: [
     CommonModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    SpinnerComponent
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+}

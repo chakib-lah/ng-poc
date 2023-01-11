@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Movie } from "../../../movie/models/movie";
 import { Subject, takeUntil } from "rxjs";
 import { HomeFacade } from "../../home.facade";
+import { LoaderEnum } from "../../../shared/spinner/loaderEnum"
 
 @Component({
   selector: 'app-home',
@@ -14,17 +15,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   comingSoonMovies: Movie[] = [];
   destroy$: Subject<boolean> = new Subject<boolean>();
   isLoading: boolean = false;
+  spinnerValue = LoaderEnum;
 
   constructor(private homeFacade: HomeFacade) {
   }
 
   ngOnInit(): void {
-    this.homeFacade.isUpdating$()
-      .subscribe({
-        next: isUpdating => this.isLoading = isUpdating,
-        error: err => console.log(err)
-      });
-
     this.homeFacade.getReleaseMovie$()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
