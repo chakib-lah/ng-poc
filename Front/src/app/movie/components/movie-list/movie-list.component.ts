@@ -11,6 +11,10 @@ import { Movie } from "../../models/movie";
 })
 export class MovieListComponent implements OnInit, OnDestroy {
 
+  pageTitle = 'Movie List';
+  imageWidth = 140;
+  imageHeight = 140;
+  errorMessage = '';
   destroy$: Subject<boolean> = new Subject<boolean>();
   movies: Movie[] = [];
 
@@ -27,9 +31,12 @@ export class MovieListComponent implements OnInit, OnDestroy {
           this.movies = movies;
           console.log(movies)
         },
-        error: err => console.log(err)
+        error: err => this.errorMessage = err
       });
-    this.movieFacade.loadMovies(null)
+    if (!this.movies) {
+      this.movieFacade.loadMovies(null);
+    }
+
   }
 
   ngOnDestroy(): void {

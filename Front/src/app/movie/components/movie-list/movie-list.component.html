@@ -1,1 +1,38 @@
-<p>movie-list works!</p>
+<div class='card'>
+  <div class='card-header'>
+    {{pageTitle}}
+  </div>
+  <div class='card-body'>
+    <div class='table-responsive'>
+      <table class='table'
+             *ngIf='movies?.length'>
+        <tbody>
+        <tr *ngFor='let movie of movies'>
+          <td>
+            <img [src]="movie.contentUrl ?? 'assets/images/notAvailable.jpg'"
+                 [title]="movie.title"
+                 [style.width.px]="imageWidth"
+                 [style.height.px]="imageHeight">
+          </td>
+          <td>{{ movie.title }}</td>
+          <td>{{ movie.country }}</td>
+          <td>{{ movie.dateRelease | date : "yyyy" }}</td>
+          <td>{{ movie.score }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class='row'>
+      <div class='col-md-6'>
+        <a [routerLink]="['/listMovie']">
+          <span>More popular matches<mat-icon>expand_more</mat-icon></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf='errorMessage'
+     class='alert alert-danger'>
+  Error: {{ errorMessage }}
+</div>
