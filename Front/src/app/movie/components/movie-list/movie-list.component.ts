@@ -20,7 +20,6 @@ export class MovieListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    let search = this.route.snapshot.paramMap.get('search');
     this.movieFacade.getMovies$()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -30,7 +29,7 @@ export class MovieListComponent implements OnInit, OnDestroy {
         },
         error: err => console.log(err)
       });
-    this.movieFacade.loadMovies(search)
+    this.movieFacade.loadMovies(null)
   }
 
   ngOnDestroy(): void {

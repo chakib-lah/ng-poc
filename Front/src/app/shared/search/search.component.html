@@ -1,4 +1,6 @@
-<mat-form-field class="example-full-width">
-  <input type="text" matInput placeholder="Search" name="search" id="search" #search (keyup.enter)="getSearchValue(search.value)">
-  <button matSuffix mat-button (click)="getSearchValue(search.value)"><mat-icon>search</mat-icon></button>
-</mat-form-field>
+<form novalidate (ngSubmit)="getSearchValue()" [formGroup]="searchForm">
+  <mat-form-field class="example-full-width">
+    <input type="text" matInput placeholder="Search" formControlName="search" id="search">
+    <button matSuffix mat-button><mat-icon>search</mat-icon></button>
+  </mat-form-field>
+</form>

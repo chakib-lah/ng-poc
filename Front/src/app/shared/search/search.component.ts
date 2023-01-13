@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { PageEnum } from "./pageEnum";
+import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
+import { MovieFacade } from "../../movie/movie.facade";
+import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
   selector: 'app-search',
@@ -9,16 +10,24 @@ import { Router } from "@angular/router";
 })
 export class SearchComponent implements OnInit {
 
-  @Input() page!: PageEnum;
+  searchForm!: FormGroup;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private movieFacade: MovieFacade
+  ) {
   }
 
   ngOnInit(): void {
+    this.searchForm = new FormGroup({
+      search: new FormControl(''),
+    })
   }
 
-  public getSearchValue(value: string) {
-    this.router.navigateByUrl("/" + this.page + "/" + value);
+  public getSearchValue() {
+    let search = this.searchForm.get('search')?.value;
+    this.movieFacade.loadMovies(search)
+    this.router.navigate(["/listMovie"]);
   }
 
 }

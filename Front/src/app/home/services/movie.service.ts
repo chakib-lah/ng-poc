@@ -42,7 +42,8 @@ export class MovieService extends HttpService<Movie> {
   }
 
   getMoviesByTitle(value: string|null): Observable<Movie[]> {
-    return this.getResourceByCriteria(this.moviesAPI, 'title=' + value, 'itemsPerPage=3')
+    let criteria = value ? 'title=' + value: '';
+    return this.getResourceByCriteria(this.moviesAPI, criteria, 'itemsPerPage=3')
       .pipe(
         map((movies: Movie[]) => movies.map(
           movie => ({
