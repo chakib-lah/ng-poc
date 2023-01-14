@@ -3,6 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { MovieFacade } from "../../movie.facade";
 import { Subject, takeUntil } from "rxjs";
 import { Movie } from "../../models/movie";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
   selector: 'app-movie-list',
@@ -17,6 +18,8 @@ export class MovieListComponent implements OnInit, OnDestroy {
   errorMessage = '';
   destroy$: Subject<boolean> = new Subject<boolean>();
   movies: Movie[] = [];
+  dataSource!: MatTableDataSource<Movie>;
+  displayedColumns: string[] = ['image', 'title', 'dateRelease', 'actors', 'category'];
 
   constructor(
     private route: ActivatedRoute,
@@ -28,6 +31,7 @@ export class MovieListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: movies => {
+          this.dataSource = new MatTableDataSource<Movie>(movies)
           this.movies = movies;
           console.log(movies)
         },

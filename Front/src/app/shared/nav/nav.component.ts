@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from '../../authentication/services/authentication.service';
-import { PageEnum } from "../search/pageEnum";
 
 @Component({
   selector: 'app-nav',
@@ -8,8 +7,6 @@ import { PageEnum } from "../search/pageEnum";
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent {
-
-  pageValue = PageEnum;
 
   constructor(public authService: AuthenticationService) {
   }

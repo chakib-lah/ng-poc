@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { MovieService } from "./services/movie.service";
+import { HomeService } from "./services/home.service";
 import { HomeState } from "./state/home.state";
 import { Observable } from "rxjs/internal/Observable";
 import { Movie } from "../movie/models/movie";
@@ -11,7 +11,7 @@ import { LoaderState } from "../shared/spinner/loader.state";
 })
 export class HomeFacade {
   constructor(
-    private movieAPI: MovieService,
+    private homeAPI: HomeService,
     private homeState: HomeState,
     private loaderState: LoaderState
   ) {
@@ -23,7 +23,7 @@ export class HomeFacade {
 
   loadLastReleaseMovie() {
     this.loaderState.startLoader$(LoaderEnum.lastReleaseLoading);
-    this.movieAPI.getLastReleaseMovie()
+    this.homeAPI.getLastReleaseMovie()
       .subscribe({
         next: movies => this.homeState.setReleaseMovie$(movies),
         error: err => console.log(err),
@@ -37,7 +37,7 @@ export class HomeFacade {
 
   loadComingSoonMovie() {
     this.loaderState.startLoader$(LoaderEnum.comingSoonLoading);
-    this.movieAPI.getComingSoonMovie()
+    this.homeAPI.getComingSoonMovie()
       .subscribe({
         next: movies => this.homeState.setComingSoonMovie$(movies),
         error: err => console.log(err),

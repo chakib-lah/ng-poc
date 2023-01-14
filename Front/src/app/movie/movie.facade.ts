@@ -3,8 +3,8 @@ import { Observable } from "rxjs/internal/Observable";
 import { LoaderEnum } from "../shared/spinner/loaderEnum";
 import { LoaderState } from "../shared/spinner/loader.state";
 import { MovieState } from "./state/movie.state";
-import { MovieService } from "../home/services/movie.service";
 import { Movie } from "./models/movie";
+import { MovieService } from "./services/movie.service";
 
 @Injectable({
   providedIn: 'root'

@@ -8,7 +8,7 @@ import { DatePipe } from "@angular/common";
 @Injectable({
   providedIn: 'root'
 })
-export class MovieService extends HttpService<Movie> {
+export class HomeService extends HttpService<Movie> {
 
   private readonly moviesAPI = '/api/movies';
 
@@ -30,20 +30,6 @@ export class MovieService extends HttpService<Movie> {
 
   getComingSoonMovie(): Observable<Movie[]> {
     return this.getResourceByCriteria(this.moviesAPI, 'dateRelease[after]=' + this.todayFormat, 'itemsPerPage=3')
-      .pipe(
-        map((movies: Movie[]) => movies.map(
-          movie => ({
-            ...movie,
-            contentUrl: movie.contentUrl ? this.baseUrl + '/' + movie.contentUrl : null,
-            score: movie.score ?? '- -',
-          })
-        ))
-      )
-  }
-
-  getMoviesByTitle(value: string|null): Observable<Movie[]> {
-    let criteria = value ? 'title=' + value: '';
-    return this.getResourceByCriteria(this.moviesAPI, criteria, 'itemsPerPage=3')
       .pipe(
         map((movies: Movie[]) => movies.map(
           movie => ({
