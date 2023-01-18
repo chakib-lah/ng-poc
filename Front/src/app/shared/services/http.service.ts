@@ -1,9 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
-import {BASE_URL} from "../../tokens";
+import { BASE_URL } from "../../tokens";
+import { PagedResults } from "../models/pagedResults";
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,23 @@ export class HttpService<R> {
     const serviceUrl = this.baseUrl + url + '?' + criteria.join('&');
     const headers = new HttpHeaders().set('Accept', 'application/json');
     return this.http.get<R[]>(serviceUrl, {headers}).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  genericSearchApi(url: string, ...query: string[]): Observable<PagedResults<R[]>> {
+    let serviceUrl = this.baseUrl + url + '?' + query.join('&');
+    if (query.length === 0) {
+      serviceUrl = this.baseUrl + url;
+    }
+    const headers = new HttpHeaders().set('Accept', 'application/ld+json');
+    return this.http.get<R[]>(serviceUrl, {headers}).pipe(
+      map(data => ({
+        // @ts-ignore
+        results: data['hydra:member'] as R[],
+        // @ts-ignore
+        totalRecords: data['hydra:totalItems'] as number,
+      }) as PagedResults<R[]>),
       catchError(this.handleError)
     );
   }

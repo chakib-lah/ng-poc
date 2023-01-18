@@ -1,35 +1,5 @@
-<!--<div class='card'>
-  <div class='card-header'>
-    {{pageTitle}}
-  </div>-->
-<!--  <div class='card-body'>
-    &lt;!&ndash;<div class='table-responsive'>
-      <table class='table'
-             *ngIf='movies?.length'>
-        <tbody>
-        <tr *ngFor='let movie of movies'>
-          <td>
-            <img [src]="movie.contentUrl ?? 'assets/images/notAvailable.jpg'"
-                 [title]="movie.title"
-                 [style.width.px]="imageWidth"
-                 [style.height.px]="imageHeight">
-          </td>
-          <td>{{ movie.title }}</td>
-          <td>{{ movie.country }}</td>
-          <td>{{ movie.dateRelease | date : "yyyy" }}</td>
-          <td>{{ movie.score }}</td>
-        </tr>
-        </tbody>
-      </table>
-    </div>&ndash;&gt;
-    &lt;!&ndash;<div class='row'>
-      <div class='col-md-6'>
-        <a [routerLink]="['/listMovie']">
-          <span>More popular matches<mat-icon>expand_more</mat-icon></span>
-        </a>
-      </div>
-    </div>&ndash;&gt;
-  </div>-->
+
+<app-spinner [loader]=spinnerValue.searchLoading></app-spinner>
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" class="movie-table">
 
@@ -48,18 +18,18 @@
       <ng-container matColumnDef="dateRelease">
         <td mat-cell *matCellDef="let row"> {{row.dateRelease| date : "yyyy" }} </td>
       </ng-container>
-      <ng-container matColumnDef="actors">
-        <td mat-cell *matCellDef="let row"> {{ row.actorsName }} </td>
-      </ng-container>
       <ng-container matColumnDef="category">
         <td mat-cell *matCellDef="let row"> {{ row.categoryType }} </td>
+      </ng-container>
+      <ng-container matColumnDef="actors">
+        <td mat-cell *matCellDef="let row"> {{ row.actorsName }} </td>
       </ng-container>
 
       <!--<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <!--<mat-paginator [pageSizeOptions]="[25, 50, 100]" showFirstLastButtons></mat-paginator>-->
+    <mat-paginator [length]="totalRecords" [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" showFirstLastButtons></mat-paginator>
   </div>
 <!--</div>-->
 

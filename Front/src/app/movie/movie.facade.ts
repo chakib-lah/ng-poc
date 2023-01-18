@@ -5,6 +5,7 @@ import { LoaderState } from "../shared/spinner/loader.state";
 import { MovieState } from "./state/movie.state";
 import { Movie } from "./models/movie";
 import { MovieService } from "./services/movie.service";
+import { PagedResults } from "../shared/models/pagedResults";
 
 @Injectable({
   providedIn: 'root'
@@ -21,14 +22,28 @@ export class MovieFacade {
     return this.movieState.getMovies$();
   }
 
-  loadMovies(value: string|null) {
+  getMoviesWithTotalRecords$() {
+    return this.movieState.getMoviesWithTotalRecords$();
+  }
+
+  getSearchFilter$(): Observable<string>{
+    return this.movieState.getSearchFilter$();
+  }
+
+  loadMovies(value: string, pageItem= 1, pageSize = 3) {
     this.loaderState.startLoader$(LoaderEnum.searchLoading);
-    this.movieAPI.getMoviesByTitle(value)
+    this.movieAPI.getMoviesByTitle(value, pageItem, pageSize)
       .subscribe({
-        next: movies => this.movieState.setMovies$(movies),
+        next: (movies:PagedResults<Movie[]>) => {
+          this.movieState.setMoviesWithTotalRecords$(movies);
+        },
         error: err => console.log(err),
         complete: () => this.loaderState.stopLoader$(LoaderEnum.searchLoading)
       })
+  }
+
+  applyFilter(filter: string){
+    this.movieState.setSearchFilter$(filter);
   }
 
 }

@@ -11,6 +11,7 @@ import { FormControl, FormGroup } from "@angular/forms";
 export class SearchComponent implements OnInit {
 
   searchForm!: FormGroup;
+  search! : string;
 
   constructor(
     private router: Router,
@@ -25,8 +26,8 @@ export class SearchComponent implements OnInit {
   }
 
   public getSearchValue() {
-    let search = this.searchForm.get('search')?.value;
-    this.movieFacade.loadMovies(search)
+    this.search = this.searchForm.get('search')?.value;
+    this.movieFacade.applyFilter(this.search);
     this.router.navigate(["/listMovie"]);
   }
 

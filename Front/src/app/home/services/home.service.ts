@@ -22,7 +22,7 @@ export class HomeService extends HttpService<Movie> {
         map((movies: Movie[]) => movies.map(
           movie => ({
             ...movie,
-            contentUrl: movie.contentUrl ? this.baseUrl + '/' + movie.contentUrl : null
+            contentUrl: movie.contentUrl ? this.baseUrl +  movie.contentUrl : null
           })
         ))
       )
@@ -34,7 +34,7 @@ export class HomeService extends HttpService<Movie> {
         map((movies: Movie[]) => movies.map(
           movie => ({
             ...movie,
-            contentUrl: movie.contentUrl ? this.baseUrl + '/' + movie.contentUrl : null,
+            contentUrl: movie.contentUrl ? this.baseUrl + movie.contentUrl : null,
             score: movie.score ?? '- -',
           })
         ))
