@@ -10,7 +10,8 @@ export class LoaderState {
 
   loaderInitialState: Record<LoaderEnum, boolean> = {
     [LoaderEnum.comingSoonLoading]: false,
-    [LoaderEnum.lastReleaseLoading]: false
+    [LoaderEnum.lastReleaseLoading]: false,
+    [LoaderEnum.searchLoading]: false
   }
 
   // @ts-ignore

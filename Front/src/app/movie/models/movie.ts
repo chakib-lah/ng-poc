@@ -14,6 +14,8 @@ export interface Movie {
     country: string;
     dateRelease: Date;
     author?: Author;
-    actor?: Actor[];
-    category?: Category[]
+    actors?: Actor[];
+    actorsName?: string[];
+    categories?: Category[];
+    categoryType?: string[];
 }

@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\MovieRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -32,6 +33,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
     normalizationContext: ['groups' => ['movie:read']],
     paginationClientItemsPerPage: true
 )]
+#[ApiFilter(SearchFilter::class, properties: ['title' => 'partial'])]
 #[ApiFilter(OrderFilter::class, properties: ['dateRelease' => 'DESC'])]
 #[ApiFilter(DateFilter::class, properties: ['dateRelease'])]
 #[ApiFilter(RangeFilter::class, properties: ['score'])]

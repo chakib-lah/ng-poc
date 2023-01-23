@@ -22,7 +22,7 @@ class Category
     private $id;
 
     #[ORM\Column(type: 'string', length: 50)]
-    #[Groups(['categories:write', 'categories:read'])]
+    #[Groups(['categories:write', 'categories:read', 'movie:read'])]
     private $type;
 
     #[ORM\ManyToMany(targetEntity: Movie::class, inversedBy: "categories")]

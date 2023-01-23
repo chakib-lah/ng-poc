@@ -1,1 +1,40 @@
-<p>movie-list works!</p>
+
+<app-spinner [loader]=spinnerValue.searchLoading></app-spinner>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="movie-table">
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="image">
+        <td mat-cell *matCellDef="let row">
+          <img [src]="row.contentUrl ?? 'assets/images/notAvailable.jpg'"
+               [title]="row.title"
+               [style.width.px]="imageWidth"
+               [style.height.px]="imageHeight">
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="title">
+        <td mat-cell *matCellDef="let row"> {{row.title}} </td>
+      </ng-container>
+      <ng-container matColumnDef="dateRelease">
+        <td mat-cell *matCellDef="let row"> {{row.dateRelease| date : "yyyy" }} </td>
+      </ng-container>
+      <ng-container matColumnDef="category">
+        <td mat-cell *matCellDef="let row"> {{ row.categoryType }} </td>
+      </ng-container>
+      <ng-container matColumnDef="actors">
+        <td mat-cell *matCellDef="let row"> {{ row.actorsName }} </td>
+      </ng-container>
+
+      <!--<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>-->
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [length]="totalRecords" [pageSizeOptions]="pageSizeOptions" [pageSize]="pageSize" showFirstLastButtons></mat-paginator>
+  </div>
+<!--</div>-->
+
+
+<div *ngIf='errorMessage'
+     class='alert alert-danger'>
+  Error: {{ errorMessage }}
+</div>

@@ -35,11 +35,11 @@ class Actor
     private $id;
 
     #[ORM\Column(type: 'string', length: 60)]
-    #[Groups(['actor:write', 'actor:read'])]
+    #[Groups(['actor:write', 'actor:read', 'movie:read'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 60)]
-    #[Groups(['actor:write', 'actor:read'])]
+    #[Groups(['actor:write', 'actor:read', 'movie:read'])]
     private $lastName;
 
     #[ORM\Column(type: 'date')]

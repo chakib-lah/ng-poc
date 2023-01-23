@@ -8,7 +8,7 @@ import { DatePipe } from "@angular/common";
 @Injectable({
   providedIn: 'root'
 })
-export class MovieService extends HttpService<Movie> {
+export class HomeService extends HttpService<Movie> {
 
   private readonly moviesAPI = '/api/movies';
 
@@ -17,12 +17,12 @@ export class MovieService extends HttpService<Movie> {
   todayFormat = this.pipe.transform(this.today, 'YYYY-MM-dd');
 
   getLastReleaseMovie(): Observable<Movie[]> {
-    return this.getResourceByCriteria(this.moviesAPI, ...['dateRelease[before]=' + this.todayFormat,'order[dateRelease]=desc', 'itemsPerPage=6'])
+    return this.getResourceByCriteria(this.moviesAPI, ...['dateRelease[before]=' + this.todayFormat, 'order[dateRelease]=desc', 'itemsPerPage=6'])
       .pipe(
         map((movies: Movie[]) => movies.map(
           movie => ({
             ...movie,
-            contentUrl: movie.contentUrl ? this.baseUrl + '/' + movie.contentUrl : null
+            contentUrl: movie.contentUrl ? this.baseUrl +  movie.contentUrl : null
           })
         ))
       )
@@ -34,7 +34,7 @@ export class MovieService extends HttpService<Movie> {
         map((movies: Movie[]) => movies.map(
           movie => ({
             ...movie,
-            contentUrl: movie.contentUrl ? this.baseUrl + '/' + movie.contentUrl : null,
+            contentUrl: movie.contentUrl ? this.baseUrl + movie.contentUrl : null,
             score: movie.score ?? '- -',
           })
         ))
